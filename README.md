@@ -1,22 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Todo App with Next.js, Drizzle ORM, and PostgreSQL
+
+This is a [Next.js](https://nextjs.org) project using Drizzle ORM with PostgreSQL for database operations.
 
 ## Getting Started
 
-First, run the development server:
+### Database Setup
+
+This project uses Docker to run PostgreSQL. To start the database:
+
+```bash
+# Start PostgreSQL in Docker
+npm run db:start
+
+# View database logs
+npm run db:logs
+
+# Stop the database
+npm run db:stop
+```
+
+### Database Migrations
+
+After starting the database, you need to run migrations:
+
+```bash
+# Generate migration files
+npm run db:generate
+
+# Apply migrations
+npm run db:migrate
+```
+
+### Development Server
+
+Once the database is running and migrations are applied, start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Drizzle Studio
+
+You can use Drizzle Studio to view and manage your database:
+
+```bash
+npm run db:studio
+```
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 

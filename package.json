@@ -2,25 +2,38 @@
   "name": "todo-with-cline",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:migrate": "drizzle-kit generate && node src/db/migrate.js",
+    "db:studio": "drizzle-kit studio",
+    "db:types": "drizzle-kit generate:types --out src/db/types",
+    "db:start": "docker-compose up -d",
+    "db:stop": "docker-compose down",
+    "db:logs": "docker-compose logs -f postgres"
   },
   "dependencies": {
+    "@types/pg": "^8.11.11",
+    "dotenv": "^16.4.7",
+    "drizzle-orm": "^0.40.0",
+    "next": "14.2.18",
+    "pg": "^8.13.3",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.2.18"
+    "zod": "^3.24.2"
   },
   "devDependencies": {
-    "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "drizzle-kit": "^0.30.5",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.18",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.18"
+    "typescript": "^5"
   }
 }
