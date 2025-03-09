@@ -23,6 +23,8 @@
 - **Jest**: テストフレームワーク
 - **ts-jest**: TypeScript対応
 - **React Testing Library**: UIテスト
+- **Playwright**: E2Eテスト
+- **Supertest**: APIテスト
 
 ## 開発環境セットアップ
 
@@ -109,10 +111,37 @@ features/[feature]/
 - パスワードハッシュ化
 - JWT管理
 
+## テスト環境
+
+### テスト種別
+- **単体テスト**: 個別関数・メソッドのテスト（Jest）
+- **統合テスト**: 複数コンポーネント・サービス間の連携テスト
+- **APIテスト**: エンドポイントの動作検証（Supertest）
+- **コンポーネントテスト**: UI要素の検証（React Testing Library）
+- **E2Eテスト**: ユーザー操作シミュレーション（Playwright）
+
+### テスト実行
+```bash
+# 単体・統合テスト
+npm test
+
+# テスト監視モード
+npm run test:watch
+
+# E2Eテスト
+npm run test:e2e
+
+# E2EテストのUIモード
+npm run test:e2e:ui
+
+# E2Eテストのデバッグモード
+npm run test:e2e:debug
+```
+
 ## 主要依存パッケージ
 - Next.js, React
 - Drizzle ORM, PostgreSQL
 - NextAuth, bcrypt
 - Tailwind CSS
 - TypeScript, Zod
-- Jest, ESLint
+- Jest, ESLint, Playwright

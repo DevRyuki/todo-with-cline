@@ -75,6 +75,33 @@ flowchart TD
 3. **@ts-expect-errorの適切使用**
 4. **tsconfig.json設定**
 
+### テスト戦略
+```mermaid
+flowchart TD
+    Unit[単体テスト] --> Integration[統合テスト]
+    Integration --> Component[コンポーネントテスト]
+    Component --> E2E[E2Eテスト]
+    
+    Unit --> Jest[Jest]
+    Integration --> Jest
+    Component --> RTL[React Testing Library]
+    E2E --> Playwright[Playwright]
+```
+
+#### E2Eテスト（Playwright）
+```mermaid
+flowchart LR
+    Setup[環境セットアップ] --> Reset[DBリセット]
+    Reset --> TestData[テストデータ作成]
+    TestData --> Run[テスト実行]
+    Run --> Report[レポート生成]
+```
+
+1. **環境セットアップ**: グローバルセットアップでテスト環境準備
+2. **テストシナリオ**: ユーザー操作を模倣したテスト
+3. **自動化**: CI/CDパイプラインとの統合
+4. **並列実行**: 複数ブラウザでの同時テスト
+
 ## 技術選定
 - **Next.js App Router**: ルーティング・SSR・API統合
 - **Drizzle ORM**: 型安全SQLクエリビルダー
