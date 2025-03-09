@@ -6,8 +6,9 @@ import bcrypt from 'bcrypt';
 import { Resend } from 'resend';
 import { randomBytes } from 'crypto';
 
-// 環境変数からResend APIキーを取得
+// 環境変数からResend設定を取得
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
+const RESEND_DOMAIN = process.env.RESEND_DOMAIN;
 
 // パスワードリセットトークンの有効期限（24時間）
 const TOKEN_EXPIRY_HOURS = 24;
@@ -38,6 +39,9 @@ export class AuthService {
   constructor() {
     if (!RESEND_API_KEY) {
       console.warn('RESEND_API_KEY is not set. Email functionality will not work.');
+    }
+    if (!RESEND_DOMAIN) {
+      console.warn('RESEND_DOMAIN is not set. Email functionality may not work correctly.');
     }
     this.resend = new Resend(RESEND_API_KEY);
   }
@@ -215,10 +219,15 @@ export class AuthService {
       return;
     }
 
+    if (!RESEND_DOMAIN) {
+      console.error('RESEND_DOMAIN is not set. Cannot send password reset email.');
+      return;
+    }
+
     const resetUrl = `${process.env.NEXT_PUBLIC_APP_URL}/auth/reset-password?token=${token.token}`;
 
     await this.resend.emails.send({
-      from: 'noreply@yourdomain.com',
+      from: `noreply@${RESEND_DOMAIN}`,
       to: token.identifier,
       subject: 'パスワードリセットのご案内',
       html: `
