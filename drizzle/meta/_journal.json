@@ -29,6 +29,13 @@
       "when": 1741420112966,
       "tag": "0003_good_madrox",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1741425216119,
+      "tag": "0004_abnormal_metal_master",
+      "breakpoints": true
     }
   ]
 }

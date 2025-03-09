@@ -83,6 +83,12 @@ flowchart LR
    - テストが引き続き成功することを確認しながら改善を行う
    - 設計の原則やパターンを適用する
 
+#### TDDの例外
+- **スキーマファイル**: データベーススキーマやデータモデル定義ファイル（`schema.ts`）はTDDの対象外
+  - スキーマはデータ構造を定義するものであり、振る舞いをテストするTDDの手法が適さない
+  - スキーマの変更はマイグレーションを通じて検証される
+  - 例: `src/db/schema.ts`や`src/features/*/schemas/schema.ts`ファイル
+
 このサイクルを繰り返すことで、高品質で堅牢なコードベースを構築します。
 
 #### TDDの実装方法
@@ -105,6 +111,37 @@ flowchart LR
 - カンマ抜けなどの構文エラーを早期に検出
 - コードスタイルの一貫性を確保
 
+#### テストファイルのESLintエラー解消パターン
+テストファイルでは、特にモックを使用する際にTypeScriptの型エラーが発生しやすいため、以下のパターンを採用しています：
+
+```mermaid
+flowchart TD
+    TestFile[テストファイル作成] --> TypeDef[型定義ファイル作成]
+    TypeDef --> MockSetup[モックのセットアップ]
+    MockSetup --> TypeAssertion[型アサーションの適用]
+    TypeAssertion --> TestImpl[テスト実装]
+```
+
+1. **型定義ファイルの作成**
+   - `src/types/jest.d.ts`などの型定義ファイルを作成
+   - モックオブジェクトの型を定義
+   - 例: `interface MockDb { insert: jest.Mock; select: jest.Mock; }`
+
+2. **適切な型アサーション**
+   - モックオブジェクトに適切な型を指定
+   - 例: `const mockService = new Service() as jest.Mocked<Service>;`
+
+3. **@ts-expect-errorコメントの適切な使用**
+   - 型エラーを解消できない場合のみ使用
+   - 使用理由を明記する
+   - 例: `// @ts-expect-error - モックオブジェクトの型が正しく推論されないため`
+
+4. **tsconfig.jsonの設定**
+   - テストファイルの型チェックを制御するための設定
+   - 例: `"exclude": ["node_modules", "**/__tests__/**"]`
+
+これらのパターンを適用することで、テストファイルのESLintエラーを解消し、コードの品質を維持します。
+
 ### Next.js App Router
 ルーティング、サーバーサイドレンダリング、APIエンドポイントを統合するためにNext.jsのApp Routerを採用しています。
 
@@ -116,3 +153,31 @@ PostgreSQLデータベースを含む開発環境をDockerで構築し、環境�
 
 ### フィーチャーベースのディレクトリ構造
 機能ごとにコードを整理することで、関連するファイルを一箇所にまとめ、メンテナンス性と拡張性を向上させています。
+
+### 認証システム
+NextAuthを使用した認証システムを採用し、以下のパターンを実装しています：
+
+```mermaid
+flowchart TD
+    Login[ログイン要求] --> NextAuth[NextAuth処理]
+    NextAuth --> Credentials[認証情報検証]
+    Credentials --> AuthService[認証サービス]
+    AuthService --> DB[データベース]
+    
+    Reset[パスワードリセット] --> Token[トークン生成]
+    Token --> Email[メール送信]
+    Email --> Resend[Resendサービス]
+</mermaid>
+
+1. **NextAuthアダプター**
+   - Drizzle ORMとNextAuthの連携
+   - データベーススキーマの自動マッピング
+
+2. **サービス層での認証ロジック**
+   - パスワードのハッシュ化と検証
+   - トークン生成と検証
+   - ユーザー管理
+
+3. **APIルートの分離**
+   - NextAuth標準ルート
+   - カスタム認証エンドポイント

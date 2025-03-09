@@ -12,12 +12,15 @@
 - **Next.js API Routes**: サーバーサイドAPI実装
 - **Drizzle ORM**: TypeScript用SQLクエリビルダー
 - **PostgreSQL**: リレーショナルデータベース
+- **NextAuth.js**: 認証システム
+- **Resend**: メール送信サービス
 
 ### 開発ツール
 - **Docker**: コンテナ化された開発環境
 - **ESLint**: コード品質管理
 - **TypeScript**: 型チェックとコード補完
 - **Jest**: JavaScript/TypeScriptテストフレームワーク
+- **ts-jest**: TypeScriptのJestサポート
 - **React Testing Library**: Reactコンポーネントのテスト
 - **Supertest**: APIエンドポイントのテスト
 
@@ -32,6 +35,12 @@
 `.env.local`ファイルに以下の環境変数を設定：
 - データベース接続情報
 - アプリケーション設定
+- NextAuth設定
+  - `NEXTAUTH_URL`: アプリケーションのURL
+  - `NEXTAUTH_SECRET`: セッション暗号化用のシークレットキー
+- Resend設定
+  - `RESEND_API_KEY`: Resend APIキー
+  - `NEXT_PUBLIC_APP_URL`: アプリケーションの公開URL
 
 ### 開発サーバー起動
 ```bash
@@ -55,6 +64,11 @@ npm run dev
 - Todos: タスク管理
 - Projects: プロジェクト管理
 - Workspaces: ワークスペース管理
+- Users: ユーザー管理
+- Accounts: OAuth連携アカウント
+- Sessions: ユーザーセッション
+- VerificationTokens: メール検証トークン
+- Passwords: パスワード管理
 
 ### マイグレーション
 Drizzle ORMを使用したマイグレーション管理：
@@ -68,13 +82,19 @@ Drizzle ORMを使用したマイグレーション管理：
 src/
 ├── app/              # Next.js App Router
 │   ├── api/          # APIエンドポイント
+│   │   ├── auth/     # 認証関連API
+│   │   └── todos/    # Todo関連API
 │   └── ...           # ページコンポーネント
 ├── db/               # データベース設定
 │   ├── index.ts      # DB接続設定
 │   ├── migrate.js    # マイグレーションスクリプト
 │   └── schema.ts     # スキーマ定義
+├── types/            # 型定義
+│   ├── next-auth.d.ts # NextAuth型拡張
+│   └── jest.d.ts     # Jest型定義
 └── features/         # 機能モジュール
     ├── _example/     # 例示用モジュール
+    ├── auth/         # 認証機能
     ├── todos/        # Todoタスク機能
     ├── projects/     # プロジェクト機能
     └── workspaces/   # ワークスペース機能
@@ -87,9 +107,11 @@ features/[feature]/
 ├── components/       # UIコンポーネント
 ├── fetchers/         # データフェッチングロジック
 ├── handlers/         # イベント処理ロジック
+│   └── __tests__/    # ハンドラーのテスト
 ├── hooks/            # Reactカスタムフック
 ├── schemas/          # データスキーマ
 └── services/         # ビジネスロジック
+    └── __tests__/    # サービスのテスト
 ```
 
 ## 技術的制約
@@ -115,3 +137,10 @@ features/[feature]/
 - TypeScript
 - Tailwind CSS
 - ESLint
+- NextAuth.js
+- @auth/drizzle-adapter
+- bcrypt
+- Resend
+- Zod
+- Jest
+- ts-jest
