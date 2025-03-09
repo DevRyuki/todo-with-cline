@@ -6,6 +6,7 @@
 - **Next.js**: App Router使用
 - **React**: UIライブラリ
 - **Tailwind CSS**: ユーティリティCSS
+- **Shadcn/UI**: 再利用可能なUIコンポーネント
 - **TypeScript**: 静的型付け
 
 ### バックエンド
@@ -142,6 +143,6 @@ npm run test:e2e:debug
 - Next.js, React
 - Drizzle ORM, PostgreSQL
 - NextAuth, bcrypt
-- Tailwind CSS
+- Tailwind CSS, Shadcn/UI
 - TypeScript, Zod
 - Jest, ESLint, Playwright

@@ -38,11 +38,31 @@ flowchart LR
     DB --> Postgres[(PostgreSQL)]
 ```
 
+### フォームデータフロー
+```mermaid
+flowchart LR
+    Form[フォームコンポーネント] --> Validation[バリデーション]
+    Validation --> Hook[カスタムフック]
+    Hook --> Fetcher[フェッチャー]
+    Fetcher --> API[APIエンドポイント]
+    API --> Handler[ハンドラー]
+    Handler --> Service[サービス]
+    Service --> DB[データベース]
+```
+
 ## 設計パターン
 - **リポジトリパターン**: DrizzleORMによるデータアクセス抽象化
 - **サービス層パターン**: ビジネスロジック分離
 - **フック抽象化**: UIからデータフェッチング分離
 - **フィーチャーモジュール**: 機能ごとのコード整理
+- **フォームコンポーネントパターン**: 再利用可能なフォーム構築
+  - 制御されたコンポーネント
+  - バリデーション分離
+  - 送信ハンドラー抽象化
+- **UIコンポーネントパターン**: Shadcn/UIによるコンポーネント構築
+  - アクセシビリティ対応
+  - カスタマイズ可能
+  - コンポジション重視
 
 ## テスト駆動開発（TDD）
 ```mermaid
@@ -98,15 +118,38 @@ flowchart LR
 ```
 
 1. **環境セットアップ**: グローバルセットアップでテスト環境準備
-2. **テストシナリオ**: ユーザー操作を模倣したテスト
-3. **自動化**: CI/CDパイプラインとの統合
-4. **並列実行**: 複数ブラウザでの同時テスト
+   - `tests/global-setup.ts`でテスト前の環境初期化
+   - `playwright.config.ts`で設定（ブラウザ、タイムアウト、並列実行等）
+   - ウェブサーバー自動起動（`npm run dev`）
+
+2. **データベースリセット**: テスト前にDBをクリーンな状態に
+   - `tests/helpers/setup-db.ts`でDB操作
+   - `resetTestDatabase()`でDBリセット
+   - `createTestData()`でテストデータ作成
+
+3. **テストシナリオ**: ユーザー操作を模倣したテスト
+   - 認証フロー（`tests/auth.spec.ts`）
+   - Todoアプリ操作（`tests/todo-app.spec.ts`）
+   - データテスト属性（`data-testid`）を使用したセレクタ
+
+4. **テスト実行モード**:
+   - 標準実行: `npm run test:e2e`
+   - UI表示モード: `npm run test:e2e:ui`
+   - デバッグモード: `npm run test:e2e:debug`
+
+5. **並列実行**: 複数ブラウザでの同時テスト
+   - Chromium, Firefox, WebKitでのクロスブラウザテスト
+   - `fullyParallel: true`で並列実行
 
 ## 技術選定
 - **Next.js App Router**: ルーティング・SSR・API統合
 - **Drizzle ORM**: 型安全SQLクエリビルダー
 - **Docker**: 開発環境一貫性確保
 - **フィーチャーベース構造**: メンテナンス性・拡張性向上
+- **Shadcn/UI**: 再利用可能なUIコンポーネント
+  - Radix UIベース
+  - Tailwind CSSスタイリング
+  - 高いカスタマイズ性
 
 ## 認証システム（NextAuth）
 ```mermaid
