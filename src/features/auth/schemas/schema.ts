@@ -47,3 +47,16 @@ export const verificationTokens = pgTable('verificationTokens', {
 }, (vt) => ({
   primaryKey: primaryKey(vt.identifier, vt.token),
 }));
+
+/**
+ * パスワード認証用のスキーマ
+ * NextAuthのスキーマにはパスワードフィールドがないため、別テーブルで管理
+ */
+export const passwords = pgTable('passwords', {
+  userId: text('userId')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' })
+    .primaryKey(),
+  hash: text('hash').notNull(),
+  updatedAt: timestamp('updatedAt', { mode: 'date' }).notNull().defaultNow(),
+});

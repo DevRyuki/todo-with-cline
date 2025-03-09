@@ -11,7 +11,7 @@
     "test": "eslint src/**/*.ts && jest",
     "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "node src/db/migrate.js && npm npm run db:generate",
+    "db:migrate": "node src/db/migrate.js && npm run db:generate",
     "db:reset": "node src/db/reset.js",
     "db:studio": "drizzle-kit studio",
     "db:types": "drizzle-kit generate:types --out src/db/types",

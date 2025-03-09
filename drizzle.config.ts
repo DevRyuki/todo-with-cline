@@ -7,7 +7,7 @@ dotenv.config({ path: '.env.local' });
 export default {
   schema: [
     './src/db/schema.ts',
-    './src/features/*/schemas/schema.ts'
+    './src/features/*/schemas/schema.ts',
   ],
   out: './drizzle',
   dialect: 'postgresql',

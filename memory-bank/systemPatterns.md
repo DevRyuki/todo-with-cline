@@ -148,6 +148,12 @@ flowchart TD
 ### Drizzle ORM
 型安全なSQLクエリビルダーとしてDrizzle ORMを選択し、マイグレーション管理とスキーマ定義を簡素化しています。
 
+#### データベーススキーマ管理
+- 各フィーチャーは独自のスキーマファイル（`schema.ts`）を持ち、そのフィーチャーに関連するテーブル定義を含みます
+- すべてのテーブル定義は`src/db/schema.ts`にインポートして集約します
+- 複数のスキーマファイルに分割せず、各フィーチャーの`schema.ts`に関連するすべてのテーブルを定義します
+- 例: 認証関連のテーブル（users, accounts, sessions, verificationTokens, passwords）はすべて`src/features/auth/schemas/schema.ts`に定義します
+
 ### Docker開発環境
 PostgreSQLデータベースを含む開発環境をDockerで構築し、環境の一貫性を確保しています。
 

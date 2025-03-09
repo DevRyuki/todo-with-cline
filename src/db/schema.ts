@@ -5,8 +5,7 @@
 import { todos } from '@/features/todos/schemas/schema';
 import { projects } from '@/features/projects/schemas/schema';
 import { workspaces } from '@/features/workspaces/schemas/schema';
-import { users, accounts, sessions, verificationTokens } from '@/features/auth/schemas/schema';
-import { passwords } from '@/features/auth/schemas/password.schema';
+import { users, accounts, sessions, verificationTokens, passwords } from '@/features/auth/schemas/schema';
 
 export { todos, projects, workspaces, users, accounts, sessions, verificationTokens, passwords };
 
