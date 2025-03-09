@@ -14,6 +14,8 @@
 - **PostgreSQL**: リレーショナルデータベース
 - **NextAuth.js**: 認証システム
 - **Resend**: メール送信サービス
+- **bcrypt**: パスワードハッシュ化
+- **Zod**: スキーマバリデーション
 
 ### 開発ツール
 - **Docker**: コンテナ化された開発環境
@@ -21,6 +23,7 @@
 - **TypeScript**: 型チェックとコード補完
 - **Jest**: JavaScript/TypeScriptテストフレームワーク
 - **ts-jest**: TypeScriptのJestサポート
+- **@jest/globals**: Jestのグローバル関数と型定義
 - **React Testing Library**: Reactコンポーネントのテスト
 - **Supertest**: APIエンドポイントのテスト
 
@@ -61,14 +64,22 @@ npm run dev
 
 ### スキーマ
 主要なデータモデル：
-- Todos: タスク管理
-- Projects: プロジェクト管理
-- Workspaces: ワークスペース管理
-- Users: ユーザー管理
-- Accounts: OAuth連携アカウント
-- Sessions: ユーザーセッション
-- VerificationTokens: メール検証トークン
-- Passwords: パスワード管理
+- **Todos**: タスク管理
+  - id, title, description, completed, userId, projectId, createdAt, updatedAt
+- **Projects**: プロジェクト管理
+  - id, name, description, userId, workspaceId, createdAt, updatedAt
+- **Workspaces**: ワークスペース管理
+  - id, name, description, userId, createdAt, updatedAt
+- **Users**: ユーザー管理（NextAuth）
+  - id, name, email, emailVerified, image
+- **Accounts**: OAuth連携アカウント（NextAuth）
+  - userId, type, provider, providerAccountId, refresh_token, access_token, expires_at, token_type, scope, id_token, session_state
+- **Sessions**: ユーザーセッション（NextAuth）
+  - sessionToken, userId, expires
+- **VerificationTokens**: メール検証トークン（NextAuth）
+  - identifier, token, expires
+- **Passwords**: パスワード管理（カスタム）
+  - userId, hash, updatedAt
 
 ### マイグレーション
 Drizzle ORMを使用したマイグレーション管理：
@@ -83,11 +94,18 @@ src/
 ├── app/              # Next.js App Router
 │   ├── api/          # APIエンドポイント
 │   │   ├── auth/     # 認証関連API
+│   │   │   ├── [...nextauth]/    # NextAuth設定
+│   │   │   ├── register/         # ユーザー登録
+│   │   │   ├── forgot-password/  # パスワードリセットリクエスト
+│   │   │   └── reset-password/   # パスワードリセット
 │   │   └── todos/    # Todo関連API
+│   │       ├── route.ts          # Todoリスト操作
+│   │       └── [id]/route.ts     # 個別Todo操作
 │   └── ...           # ページコンポーネント
 ├── db/               # データベース設定
 │   ├── index.ts      # DB接続設定
 │   ├── migrate.js    # マイグレーションスクリプト
+│   ├── reset.js      # DB初期化スクリプト
 │   └── schema.ts     # スキーマ定義
 ├── types/            # 型定義
 │   ├── next-auth.d.ts # NextAuth型拡張
@@ -95,6 +113,9 @@ src/
 └── features/         # 機能モジュール
     ├── _example/     # 例示用モジュール
     ├── auth/         # 認証機能
+    │   ├── handlers/       # 認証ハンドラー
+    │   ├── schemas/        # 認証スキーマ
+    │   └── services/       # 認証サービス
     ├── todos/        # Todoタスク機能
     ├── projects/     # プロジェクト機能
     └── workspaces/   # ワークスペース機能
@@ -119,28 +140,28 @@ features/[feature]/
 ### パフォーマンス考慮事項
 - サーバーサイドレンダリングとクライアントサイドレンダリングの適切な使い分け
 - データベースクエリの最適化
+- 不必要な再レンダリングの防止
 
 ### スケーラビリティ
 - マイクロサービスへの将来的な移行を考慮したモジュール設計
 - 水平スケーリングを可能にするステートレスなAPI設計
+- フィーチャーベースの構造による機能の独立性確保
 
 ### セキュリティ
-- 入力バリデーション
+- 入力バリデーション（Zodによるスキーマ検証）
 - APIエンドポイントの適切な認証と認可
 - SQLインジェクション対策（Drizzle ORMによる）
+- パスワードの安全なハッシュ化（bcryptによる）
+- JWTを使用したセッション管理
 
 ## 依存関係
 主要な依存パッケージ（package.jsonより）：
-- Next.js
-- React
-- Drizzle ORM
-- TypeScript
-- Tailwind CSS
-- ESLint
-- NextAuth.js
-- @auth/drizzle-adapter
-- bcrypt
-- Resend
-- Zod
-- Jest
-- ts-jest
+- **フレームワーク**: Next.js, React
+- **データベース**: Drizzle ORM, PostgreSQL
+- **認証**: NextAuth.js, @auth/drizzle-adapter, bcrypt
+- **スタイリング**: Tailwind CSS
+- **型システム**: TypeScript
+- **バリデーション**: Zod
+- **メール送信**: Resend
+- **テスト**: Jest, ts-jest, @jest/globals
+- **開発ツール**: ESLint, Docker

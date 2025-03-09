@@ -167,7 +167,12 @@ flowchart TD
     Reset[パスワードリセット] --> Token[トークン生成]
     Token --> Email[メール送信]
     Email --> Resend[Resendサービス]
-</mermaid>
+    
+    Register[ユーザー登録] --> Validate[入力検証]
+    Validate --> Hash[パスワードハッシュ化]
+    Hash --> CreateUser[ユーザー作成]
+    CreateUser --> StorePassword[パスワード保存]
+```
 
 1. **NextAuthアダプター**
    - Drizzle ORMとNextAuthの連携
@@ -179,5 +184,13 @@ flowchart TD
    - ユーザー管理
 
 3. **APIルートの分離**
-   - NextAuth標準ルート
+   - NextAuth標準ルート（`/api/auth/[...nextauth]`）
    - カスタム認証エンドポイント
+     - ユーザー登録（`/api/auth/register`）
+     - パスワードリセットリクエスト（`/api/auth/forgot-password`）
+     - パスワードリセット（`/api/auth/reset-password`）
+
+4. **パスワード管理の分離**
+   - 独立したパスワードテーブル（`passwords`）
+   - ユーザーIDによる関連付け
+   - パスワードハッシュの安全な保存
