@@ -64,6 +64,48 @@ flowchart LR
   - カスタマイズ可能
   - コンポジション重視
 
+## データフェッチングパターン
+```mermaid
+flowchart TD
+    Component[UIコンポーネント] --> Hook[カスタムフック]
+    Hook --> State[状態管理]
+    Hook --> Fetcher[フェッチャー]
+    Fetcher --> API[APIエンドポイント]
+    State --> Loading[ローディング状態]
+    State --> Error[エラー状態]
+    State --> Data[データ状態]
+```
+
+### フェッチャー
+- **責務**: APIとの通信を抽象化
+- **実装**: `src/features/[feature]/fetchers/[feature].fetcher.ts`
+- **特徴**:
+  - API通信のみに集中
+  - エラーハンドリング
+  - 型安全なリクエスト/レスポンス
+  - 再利用可能なメソッド
+  - UIに依存しない純粋な関数
+
+### カスタムフック
+- **責務**: データ状態管理とフェッチャー連携
+- **実装**: `src/features/[feature]/hooks/use-[feature].ts`
+- **特徴**:
+  - Reactの状態管理（useState, useEffect）
+  - ローディング状態管理
+  - エラー状態管理
+  - データキャッシュ
+  - UIコンポーネントへのインターフェース提供
+  - フェッチャーの呼び出し
+
+### UIコンポーネント
+- **責務**: データ表示と操作
+- **実装**: `src/features/[feature]/components/[component].tsx`
+- **特徴**:
+  - カスタムフックを使用したデータ取得
+  - ローディング/エラー状態の表示
+  - データの表示
+  - ユーザー操作のハンドリング
+
 ## テスト駆動開発（TDD）
 ```mermaid
 flowchart LR

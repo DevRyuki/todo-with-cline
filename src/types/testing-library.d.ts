@@ -29,7 +29,26 @@ declare global {
 
 // React Testing Libraryの型定義
 declare module '@testing-library/react' {
-  export * from '@testing-library/react';
+  // renderHook関連の型定義
+  export interface RenderHookResult<Result, Props> {
+    result: {
+      current: Result;
+      error?: Error;
+    };
+    rerender: (props?: Props) => void;
+    unmount: () => void;
+    waitForNextUpdate: () => Promise<void>;
+  }
+
+  export function renderHook<Result, Props>(
+    callback: (props: Props) => Result,
+    options?: {
+      initialProps?: Props;
+      wrapper?: React.ComponentType<React.PropsWithChildren<unknown>>;
+    }
+  ): RenderHookResult<Result, Props>;
+
+  export function act(callback: () => void | Promise<void>): Promise<void> | void;
 }
 
 // Jest DOMの型定義

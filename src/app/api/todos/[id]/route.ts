@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import { todosHandler } from '@/features/todos/handler/todos.handler';
+import { todosHandler } from '@/features/todos/handlers/todos.handler';
 
 // GET /api/todos/[id] - 特定のTodoを取得
 export async function GET(

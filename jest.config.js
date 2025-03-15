@@ -1,7 +1,7 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} */
 export default {
   preset: 'ts-jest',
-  testEnvironment: 'node',
+  testEnvironment: 'jsdom',
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
@@ -9,16 +9,9 @@ export default {
     '^.+\\.tsx?$': ['ts-jest', {
       tsconfig: 'tsconfig.json',
       isolatedModules: true,
+      typeCheck: false, // 型チェックをスキップ
     }],
   },
-  globals: {
-    'ts-jest': {
-      isolatedModules: true,
-    },
-  },
-  // テスト実行時に型チェックをスキップ
-  // これにより、テストファイルの型エラーが表示されなくなります
-  ts: {
-    typeCheck: false,
-  },
+  setupFilesAfterEnv: ['<rootDir>/src/setupTests.cjs'],
+  testPathIgnorePatterns: ['/node_modules/', '/.next/'],
 };

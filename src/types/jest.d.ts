@@ -20,6 +20,16 @@ declare namespace jest {
       results: { type: string; value: T }[];
     };
   }
+
+  // jest.mockedの型定義
+  function mocked<T>(item: T, deep?: boolean): jest.Mocked<T>;
+  type Mocked<T> = {
+    [P in keyof T]: T[P] extends (...args: infer A) => infer B
+      ? jest.Mock<B, A>
+      : T[P] extends object
+      ? jest.Mocked<T[P]>
+      : T[P];
+  } & T;
 }
 
 // テスト環境でのみ使用される型定義
@@ -33,7 +43,7 @@ declare global {
 // テスト用のモジュール型定義
 declare module '@/db' {
   import { PgTable } from 'drizzle-orm/pg-core';
-  
+
   // 戻り値の型
   type DbReturnType = {
     from: jest.Mock<{

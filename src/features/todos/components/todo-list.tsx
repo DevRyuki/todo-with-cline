@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useTodos } from '../hooks/use-todos';
 import { Todo } from '../types';
 
 interface TodoListProps {
@@ -21,38 +21,13 @@ export const TodoList = ({
   onTodoToggle,
   onTodoDelete,
 }: TodoListProps) => {
-  const [todos, setTodos] = useState<Todo[]>(initialTodos || []);
-  const [isLoading, setIsLoading] = useState(!initialTodos);
-  const [error, setError] = useState<string | null>(null);
-
-  // 初期Todoがない場合はAPIから取得
-  useEffect(() => {
-    if (!initialTodos) {
-      fetchTodos();
-    }
-  }, [initialTodos]);
-
-  // Todoリストを取得
-  const fetchTodos = async () => {
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const response = await fetch('/api/todos');
-
-      if (!response.ok) {
-        throw new Error('Todoの取得に失敗しました');
-      }
-
-      const data = await response.json();
-      setTodos(data);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : '予期しないエラーが発生しました');
-      console.error('Todoの取得エラー:', err);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const {
+    todos,
+    isLoading,
+    error,
+    toggleTodoCompletion,
+    deleteTodo,
+  } = useTodos({ initialTodos });
 
   // Todo完了状態の切り替え
   const handleToggle = async (id: number, completed: boolean) => {
@@ -60,26 +35,9 @@ export const TodoList = ({
       if (onTodoToggle) {
         await onTodoToggle(id, completed);
       } else {
-        // デフォルトの動作
-        const response = await fetch(`/api/todos/${id}`, {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ completed }),
-        });
-
-        if (!response.ok) {
-          throw new Error('Todoの更新に失敗しました');
-        }
-
-        // 成功したら状態を更新
-        setTodos(todos.map(todo =>
-          todo.id === id ? { ...todo, completed } : todo
-        ));
+        await toggleTodoCompletion(id, completed);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : '予期しないエラーが発生しました');
       console.error('Todo更新エラー:', err);
     }
   };
@@ -90,20 +48,9 @@ export const TodoList = ({
       if (onTodoDelete) {
         await onTodoDelete(id);
       } else {
-        // デフォルトの動作
-        const response = await fetch(`/api/todos/${id}`, {
-          method: 'DELETE',
-        });
-
-        if (!response.ok) {
-          throw new Error('Todoの削除に失敗しました');
-        }
-
-        // 成功したら状態を更新
-        setTodos(todos.filter(todo => todo.id !== id));
+        await deleteTodo(id);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : '予期しないエラーが発生しました');
       console.error('Todo削除エラー:', err);
     }
   };
