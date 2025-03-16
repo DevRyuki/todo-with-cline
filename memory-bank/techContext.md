@@ -121,6 +121,25 @@ features/[feature]/
 - **コンポーネントテスト**: UI要素の検証（React Testing Library）
 - **E2Eテスト**: ユーザー操作シミュレーション（Playwright）
 
+### Jest設定
+- **jest.config.js**: テスト設定ファイル
+  - `preset: 'ts-jest'` - TypeScriptサポート
+  - `testEnvironment: 'jsdom'` - DOM環境
+  - `moduleNameMapper` - モジュールパスエイリアス
+  - `transform` - ファイル変換設定
+  - `extensionsToTreatAsEsm` - ESモジュール対応
+  - `projects` - テスト実行プロジェクト分割
+
+- **jest.setup.js**: テスト環境セットアップ
+  - Next.js環境のモック
+  - グローバルオブジェクトの設定
+  - Next.jsコンポーネントのモック
+
+- **setupTests.js/cjs**: テスト環境追加設定
+  - jest-dom拡張
+  - グローバルモック設定
+  - React 18対応
+
 ### テスト実行
 ```bash
 # 単体・統合テスト
@@ -146,3 +165,56 @@ npm run test:e2e:debug
 - Tailwind CSS, Shadcn/UI
 - TypeScript, Zod
 - Jest, ESLint, Playwright
+
+## 開発ワークフロー
+
+### 機能開発フロー
+```mermaid
+flowchart TD
+    Test[テスト作成] --> Schema[スキーマ定義]
+    Schema --> Service[サービス実装]
+    Service --> Handler[ハンドラー実装]
+    Handler --> API[APIエンドポイント]
+    API --> Fetcher[フェッチャー実装]
+    Fetcher --> Hook[カスタムフック]
+    Hook --> Component[UIコンポーネント]
+```
+
+### テスト駆動開発
+```mermaid
+flowchart LR
+    Red[赤: テスト失敗] --> Green[緑: テスト成功]
+    Green --> Refactor[リファクタリング]
+    Refactor --> Red
+```
+
+### デプロイメントフロー
+```mermaid
+flowchart TD
+    Dev[開発] --> Test[テスト]
+    Test --> Build[ビルド]
+    Build --> Deploy[デプロイ]
+```
+
+## 現在のテスト環境の課題
+
+### JSX変換エラー
+- 問題: `SyntaxError: Unexpected token '<'`
+- 原因: `"type": "module"`と`"jsx": "preserve"`の設定がJestと競合
+- 対策検討中:
+  - ts-jestの設定調整
+  - babel-jestへの移行検討
+
+### モジュールパスエラー
+- 問題: `Could not locate module @/features/auth/schemas/password.schema`
+- 原因: `@/`エイリアスの解決設定が不完全
+- 対策検討中:
+  - moduleNameMapperの設定見直し
+  - パスマッピング設定の調整
+
+### setupTests.js と setupTests.cjs の重複
+- 問題: 同様の設定が2つのファイルに存在
+- 原因: ESモジュールとCommonJSの混在
+- 対策検討中:
+  - ファイルの統合
+  - 設定の一元化

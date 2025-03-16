@@ -32,6 +32,10 @@
   - エラーハンドリングとローディング状態管理
   - TodoListコンポーネントをカスタムフック使用に更新
 - APIルートのインポートパス修正
+- Jest設定の最適化（jest.setup.jsの改善）
+  - Next.js環境のモック設定強化
+  - グローバルオブジェクトの設定
+  - Next.jsコンポーネントのモック
 
 ## 進行中の作業
 - テスト環境の改善（優先度：高）
@@ -86,6 +90,10 @@
 - **テスト戦略**: 単体テスト、統合テスト、コンポーネントテスト、E2Eテストの組み合わせ
 - **E2Eテスト**: Playwrightを使用したブラウザテスト
 - **UIコンポーネント**: Shadcn/UIを使用したコンポーネントライブラリ
+- **Jest設定の最適化**: 
+  - プロジェクト分割（components, hooks, services, handlers）
+  - ESモジュールサポート
+  - Next.js環境のモック
 
 ## 現在の課題
 - テスト環境の問題
@@ -104,6 +112,7 @@
   - テストデータの一貫性確保
   - テスト間の独立性維持
   - テスト実行速度の最適化
+- テスト環境の重複ファイル（setupTests.js と setupTests.cjs）の整理
 
 ## 検討中の代替案
 - 状態管理: Context vs Redux vs Zustand
@@ -112,6 +121,7 @@
   - Jest設定の見直し vs Vitest導入
   - ts-jestの設定調整 vs babel-jestへの移行
   - Next.js環境のモック方法
+  - setupTests.js と setupTests.cjs の統合
 
 ## 重要なメモ
 - APIパターン: `/api/[resource]`
@@ -137,3 +147,7 @@
   - グローバルセットアップ（`tests/global-setup.ts`）
   - テストデータ自動生成
   - データテスト属性（`data-testid`）を使用したセレクタ
+- Jest設定:
+  - jest.config.jsでプロジェクト分割（components, hooks, services, handlers）
+  - jest.setup.jsでNext.js環境のモック設定
+  - setupTests.jsとsetupTests.cjsの重複（整理が必要）

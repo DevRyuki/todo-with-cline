@@ -33,14 +33,16 @@
 - ✅ ESLint/Jest連携
 - 🔄 テスト実行時のエラー解消
   - 🔄 JSX変換エラー（`SyntaxError: Unexpected token '<'`）
-  - 🔄 Next.js環境エラー（`ReferenceError: Request is not defined`）
+  - ✅ Next.js環境エラー（`ReferenceError: Request is not defined`）- jest.setup.jsで対応
   - 🔄 モジュールパスエラー（`Could not locate module @/features/auth/schemas/password.schema`）
 - 🔄 Jest設定の最適化
-  - 🔄 ESモジュール対応
+  - ✅ ESモジュール対応 - jest.config.jsで設定済み
   - 🔄 JSX変換設定
-  - 🔄 Next.js環境のモック
+  - ✅ Next.js環境のモック - jest.setup.jsで実装済み
+  - ✅ テスト実行プロジェクト分割 - jest.config.jsで設定済み
 - ✅ モック型定義改善
 - ✅ E2Eテスト基本実装
+- 🔄 setupTests.js と setupTests.cjs の重複解消
 
 ### フロントエンド（優先度：中）
 - ✅ データフェッチング
@@ -101,17 +103,17 @@
 - フロントエンド部分的実装
 - テスト環境の問題
   - JSX変換エラー（`SyntaxError: Unexpected token '<'`）
-  - Next.js環境エラー（`ReferenceError: Request is not defined`）
   - モジュールパスエラー（`Could not locate module @/features/auth/schemas/password.schema`）
+  - setupTests.js と setupTests.cjs の重複（整理が必要）
   - Playwrightテストの実行方法（`npm run test:e2e`で実行する必要あり）
 
-## 優先タスク（2025/3/15現在）
+## 優先タスク（2025/3/16現在）
 
 1. **テスト環境の改善**
-   - Jest設定の最適化（ESモジュール対応、JSX変換設定）
-   - Next.js環境のモック設定
+   - JSX変換設定の最適化
    - モジュールパスエイリアス設定の修正
-   - テスト実行スクリプトの分離（コンポーネント/サービス/ハンドラー）
+   - setupTests.js と setupTests.cjs の重複解消
+   - テスト実行の安定性向上
 
 2. **Todo作成・編集フォーム実装**
    - 基本フォームコンポーネント実装

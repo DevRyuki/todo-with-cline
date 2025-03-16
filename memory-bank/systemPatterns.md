@@ -183,6 +183,40 @@ flowchart LR
    - Chromium, Firefox, WebKitでのクロスブラウザテスト
    - `fullyParallel: true`で並列実行
 
+## Jest設定の最適化
+```mermaid
+flowchart TD
+    Config[jest.config.js] --> Setup[jest.setup.js]
+    Config --> Projects[テストプロジェクト分割]
+    Setup --> Mocks[Next.jsモック]
+    Setup --> Globals[グローバルオブジェクト]
+    Projects --> Components[コンポーネント]
+    Projects --> Hooks[フック]
+    Projects --> Services[サービス]
+    Projects --> Handlers[ハンドラー]
+```
+
+1. **プロジェクト分割**: テスト実行の分離と効率化
+   - `components`: UIコンポーネントテスト
+   - `hooks`: Reactフックテスト
+   - `services`: サービス層テスト
+   - `handlers`: APIハンドラーテスト
+
+2. **Next.js環境のモック**:
+   - `jest.setup.js`でグローバルオブジェクト設定
+   - Next.jsコンポーネントのモック（Link, Image等）
+   - Next.js APIのモック（useRouter, useSession等）
+
+3. **ESモジュールサポート**:
+   - `transform`設定でts-jestの設定調整
+   - `useESM: true`でESモジュールサポート
+   - `extensionsToTreatAsEsm`でESM対象拡張子指定
+
+4. **テスト環境の分離**:
+   - `setupFilesAfterEnv`でテスト環境設定
+   - `testPathIgnorePatterns`で不要なパスを除外
+   - `moduleNameMapper`でモジュールパスエイリアス設定
+
 ## 技術選定
 - **Next.js App Router**: ルーティング・SSR・API統合
 - **Drizzle ORM**: 型安全SQLクエリビルダー
