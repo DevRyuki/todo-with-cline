@@ -32,17 +32,22 @@
   - エラーハンドリングとローディング状態管理
   - TodoListコンポーネントをカスタムフック使用に更新
 - APIルートのインポートパス修正
-- Jest設定の最適化（jest.setup.jsの改善）
-  - Next.js環境のモック設定強化
-  - グローバルオブジェクトの設定
-  - Next.jsコンポーネントのモック
+- Jest設定の最適化
+  - jest.config.tsの改善（next/jest使用）
+  - jest.setup.tsへの移行
+  - モジュールパスエイリアス設定
+- テストファイルの構文エラー修正
+  - 関数宣言の括弧の欠落修正
+  - カンマの欠落修正
+  - `async` キーワードの欠落修正
+- setupTests.jsとsetupTests.cjsの重複解消
 
 ## 進行中の作業
 - テスト環境の改善（優先度：高）
-  - テストファイルの構文エラー修正
-  - JSX変換エラー解消
-  - モジュールパスエラー解消
-  - Jest設定の最適化
+  - Next.js環境エラー解消（`ReferenceError: Request is not defined`）
+  - TextEncoder未定義エラー解消（`ReferenceError: TextEncoder is not defined`）
+  - JSX変換エラー解消（`SyntaxError: Unexpected token '<'`）
+  - Playwrightテストの分離
 - Todo作成・編集フォーム開発（優先度：中）
   - 基本フォームコンポーネント実装
   - フォームバリデーション
@@ -60,12 +65,10 @@
 
 ## 次のステップ
 1. **テスト環境の改善**
-   - テストファイルの構文エラー修正
-     - 関数宣言の括弧の欠落（例: `describe('AuthService' () => {`）
-     - カンマの欠落
-     - `async` キーワードの欠落
-   - Jest設定の最適化（ESモジュール対応、JSX変換設定）
-   - モジュールパスエイリアス設定の修正
+   - Next.js環境のモック設定追加（jest.setup.tsの拡充）
+   - TextEncoderのポリフィル追加
+   - JSX変換設定の最適化
+   - Playwrightテストの分離（Jestから除外）
    - テスト実行スクリプトの分離（コンポーネント/サービス/ハンドラー）
 2. **フロントエンド実装**
    - ページタイトルの修正（現在は "Create Next App"）
@@ -101,14 +104,11 @@
 
 ## 現在の課題
 - テスト環境の問題
-  - テストファイルの構文エラー
-    - 関数宣言の括弧の欠落（例: `describe('AuthService' () => {`）
-    - カンマの欠落
-    - `async` キーワードの欠落
+  - Next.js環境エラー（`ReferenceError: Request is not defined`）
+  - TextEncoder未定義エラー（`ReferenceError: TextEncoder is not defined`）
   - JSX変換エラー（`SyntaxError: Unexpected token '<'`）
-  - Next.js環境エラー（`ReferenceError: Request is not defined`）- jest.setup.jsで対応済み
-  - モジュールパスエラー（`Could not locate module @/features/auth/schemas/password.schema`）
   - Playwrightテストの実行方法（`npm run test:e2e`で実行する必要あり）
+  - TodoListコンポーネントのテストでエラーメッセージが期待通りに表示されていない
 - フロントエンド実装の不足
   - ページタイトルが未設定（現在は "Create Next App"）
   - Todoリスト表示コンポーネントが未実装（data-testid="todo-list"が見つからない）
@@ -127,7 +127,7 @@
   - テスト間の独立性維持
   - テスト実行速度の最適化
   - すべてのE2Eテストが失敗（UIコンポーネントが実装されていないため）
-- テスト環境の重複ファイル（setupTests.js と setupTests.cjs）の整理
+- テスト環境の最適化
 
 ## 検討中の代替案
 - 状態管理: Context vs Redux vs Zustand
@@ -152,7 +152,7 @@
 - テスト環境の問題:
   - JSXテスト: `"type": "module"`と`"jsx": "preserve"`の設定がJestと競合
   - Next.jsテスト: テスト環境でNext.jsのグローバルオブジェクトが正しく定義されていない
-  - モジュールパス: `@/`エイリアスの解決設定が不完全
+  - TextEncoder: Node.jsのTextEncoderがテスト環境で定義されていない
 - E2Eテスト:
   - Playwrightフレームワーク使用
   - `npm run test:e2e`でテスト実行
@@ -163,6 +163,6 @@
   - テストデータ自動生成
   - データテスト属性（`data-testid`）を使用したセレクタ
 - Jest設定:
-  - jest.config.jsでプロジェクト分割（components, hooks, services, handlers）
-  - jest.setup.jsでNext.js環境のモック設定
-  - setupTests.jsとsetupTests.cjsの重複（整理が必要）
+  - jest.config.tsでnext/jestを使用
+  - jest.setup.tsで@testing-library/jest-domをインポート
+  - Next.js環境のモック設定が必要

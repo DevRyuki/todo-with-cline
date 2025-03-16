@@ -32,21 +32,22 @@
 - ✅ テスト環境基本設定
 - ✅ ESLint/Jest連携
 - 🔄 テスト実行時のエラー解消
-  - 🔄 テストファイルの構文エラー
-    - 関数宣言の括弧の欠落（例: `describe('AuthService' () => {`）
-    - カンマの欠落
-    - `async` キーワードの欠落
+  - ✅ テストファイルの構文エラー修正
+    - ✅ 関数宣言の括弧の欠落修正
+    - ✅ カンマの欠落修正
+    - ✅ `async` キーワードの欠落修正
   - 🔄 JSX変換エラー（`SyntaxError: Unexpected token '<'`）
-  - ✅ Next.js環境エラー（`ReferenceError: Request is not defined`）- jest.setup.jsで対応済み
-  - 🔄 モジュールパスエラー（`Could not locate module @/features/auth/schemas/password.schema`）
+  - 🔄 Next.js環境エラー（`ReferenceError: Request is not defined`）
+  - 🔄 TextEncoder未定義エラー（`ReferenceError: TextEncoder is not defined`）
+  - ✅ モジュールパスエイリアス設定 - jest.config.tsで設定済み
 - 🔄 Jest設定の最適化
-  - ✅ ESモジュール対応 - jest.config.jsで設定済み
+  - ✅ next/jest使用 - jest.config.tsで設定済み
   - 🔄 JSX変換設定
-  - ✅ Next.js環境のモック - jest.setup.jsで実装済み
-  - ✅ テスト実行プロジェクト分割 - jest.config.jsで設定済み
+  - 🔄 Next.js環境のモック設定
+  - 🔄 Playwrightテストの分離
 - ✅ モック型定義改善
 - ✅ E2Eテスト基本実装
-- 🔄 setupTests.js と setupTests.cjs の重複解消
+- ✅ setupTests.js と setupTests.cjs の重複解消 - jest.setup.tsへの移行
 
 ### フロントエンド（優先度：高）
 - ✅ データフェッチング
@@ -106,14 +107,11 @@
 
 ## 既知の問題
 - テスト環境の問題
-  - テストファイルの構文エラー
-    - 関数宣言の括弧の欠落（例: `describe('AuthService' () => {`）
-    - カンマの欠落
-    - `async` キーワードの欠落
+  - Next.js環境エラー（`ReferenceError: Request is not defined`）
+  - TextEncoder未定義エラー（`ReferenceError: TextEncoder is not defined`）
   - JSX変換エラー（`SyntaxError: Unexpected token '<'`）
-  - モジュールパスエラー（`Could not locate module @/features/auth/schemas/password.schema`）
-  - setupTests.js と setupTests.cjs の重複（整理が必要）
   - Playwrightテストの実行方法（`npm run test:e2e`で実行する必要あり）
+  - TodoListコンポーネントのテストでエラーメッセージが期待通りに表示されていない
 - フロントエンド実装の不足
   - ページタイトルが未設定（現在は "Create Next App"）
   - Todoリスト表示コンポーネントが未実装（data-testid="todo-list"が見つからない）
@@ -127,10 +125,10 @@
 ## 優先タスク（2025/3/16現在）
 
 1. **テスト環境の改善**
-   - テストファイルの構文エラー修正
+   - Next.js環境のモック設定追加（jest.setup.tsの拡充）
+   - TextEncoderのポリフィル追加
    - JSX変換設定の最適化
-   - モジュールパスエイリアス設定の修正
-   - setupTests.js と setupTests.cjs の重複解消
+   - Playwrightテストの分離（Jestから除外）
    - テスト実行の安定性向上
 
 2. **フロントエンド実装**
@@ -153,9 +151,10 @@
 
 ## 次のマイルストーン
 1. **テスト環境の改善**
-   - テストファイルの構文エラー修正
+   - Next.js環境のモック設定追加
+   - TextEncoderのポリフィル追加
    - JSX変換設定の最適化
-   - モジュールパスエイリアス設定の修正
+   - Playwrightテストの分離
 2. **フロントエンド実装**
    - ページタイトルの修正
    - Todoリスト表示コンポーネントの実装
