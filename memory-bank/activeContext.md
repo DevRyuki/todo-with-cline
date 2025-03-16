@@ -1,12 +1,10 @@
 # アクティブコンテキスト
 
 ## 現在の作業焦点
-- テスト環境の改善と問題解決
-- Todo基本機能実装
-- フィーチャーモジュール構造確立
-- TDD実践とESLint連携
-- フロントエンドコンポーネント開発
+- テスト環境の最適化
+- フロントエンド実装
 - Projects/Workspaces API実装
+- ページレイアウト改善
 
 ## 最近の変更
 - DBスキーマ定義（Drizzle）
@@ -42,69 +40,81 @@
   - `async` キーワードの欠落修正
 - setupTests.jsとsetupTests.cjsの重複解消
 - テスト環境の問題解決
-  - ✅ JSX変換エラー解消（`SyntaxError: Unexpected token '<'`）
-  - ✅ TextEncoder未定義エラー解消（`ReferenceError: TextEncoder is not defined`）
-  - ✅ Next.js環境エラーの一部解消（Request, Response, Headersクラスのモック）
-  - ✅ Playwrightテストの分離（testPathIgnorePatternsで除外）
-  - ✅ TodoListコンポーネントのエラーメッセージ修正
-  - ✅ 認証関連テストのインポートエラー解消
-  - ✅ ハンドラーテストの構文エラー修正（NextResponse.jsonのモック）
+  - JSX変換エラー解消（`SyntaxError: Unexpected token '<'`）
+  - TextEncoder未定義エラー解消（`ReferenceError: TextEncoder is not defined`）
+  - Next.js環境エラーの一部解消（Request, Response, Headersクラスのモック）
+  - Playwrightテストの分離（testPathIgnorePatternsで除外）
+  - TodoListコンポーネントのエラーメッセージ修正
+  - 認証関連テストのインポートエラー解消
+  - ハンドラーテストの構文エラー修正（NextResponse.jsonのモック）
+  - NextRequest/NextResponseのモック実装の改善（jest.setup.tsの更新）
+  - auth.handler.tsファイルのコンソールエラーメッセージのカンマ欠落修正
+  - todos.handler.tsファイルのコンソールエラーメッセージのカンマ欠落修正
+  - use-todos.tsファイルのコンソールエラーメッセージのカンマ欠落修正
 - TDD実践方法の詳細化
   - systemPatterns.mdにTDDの具体的な実践方法を追加
   - テスト→実装→リファクタリングの各ステップの詳細化
   - 実装例の追加
+- モックライブラリの導入（jest-mock-extended）
+  - 型安全なモックを簡単に作成
+  - AuthServiceのモック問題を解決
+- テストヘルパー関数の作成（src/test/helpers.ts）
+  - createMockAuthService()
+  - createMockRequest()
+  - expectJsonResponse()
+- NextResponseのモック簡素化（jest.setup.tsの修正）
 
 ## 進行中の作業
 - テスト環境の改善（優先度：高）
-  - 🔄 Next.js環境エラーの完全解消（NextRequest/NextResponseのモック）
-  - 🔄 テスト実行スクリプトの分離（コンポーネント/サービス/ハンドラー）
-  - ✅ AuthServiceのモックメソッド（mockResolvedValue、mockRejectedValue）の問題解決
-  - 🔄 auth.handler.tsファイルのコンソールエラー修正（カンマの欠落）
+  - 🔄 モックライブラリの導入と活用
+    - 🔄 next-test-api-route-handlerの導入（APIルートテスト）
+    - 🔄 MSWの導入検討（APIリクエストのモック）
+  - 🔄 Jest設定の最適化
+    - 🔄 テスト実行スクリプトの分離（コンポーネント/サービス/ハンドラー）
+  - 🔄 E2Eテスト拡充
 - TDD実践方法の改善（優先度：高）
-  - ✅ モックの簡素化と標準化（jest-mock-extendedの導入）
-  - ✅ テストヘルパー関数の作成（src/test/helpers.tsの実装）
   - 🔄 テスト粒度の最適化
-  - ✅ テスト可読性の向上（describe/itの入れ子構造の活用）
+- フロントエンド実装（優先度：高）
+  - 🔄 ページタイトルの修正（現在は "Create Next App"）
+  - 🔄 Todoリスト表示コンポーネント実装（data-testid="todo-list"が見つからない）
+  - 🔄 認証UI実装（signin-form, signup-form, forgot-password-formが見つからない）
 - Todo作成・編集フォーム開発（優先度：中）
-  - 基本フォームコンポーネント実装
-  - フォームバリデーション
-  - モーダル統合
-  - メインページ更新
+  - 🔄 基本フォームコンポーネント実装
+  - 🔄 フォームバリデーション
+  - 🔄 フォームモーダル実装
+  - 🔄 メインページ統合
 - Projects/Workspaces API実装（優先度：中）
-  - スキーマ定義の確認
-  - APIエンドポイント実装
-  - サービス層実装
-  - テスト実装
+  - 🔄 スキーマ定義の確認
+  - 🔄 APIエンドポイント実装
+  - 🔄 サービス層実装
+  - 🔄 テスト実装
 - ページレイアウト改善（優先度：中）
-  - 基本レイアウト構造実装
-  - ナビゲーション実装
-  - レスポンシブデザイン対応
+  - 🔄 基本レイアウト構造実装
+  - 🔄 ナビゲーション実装
+  - 🔄 レスポンシブデザイン対応
+  - 🔄 テーマ・スタイリング調整
+- UIコンポーネント設計（優先度：中）
+  - 🔄 共通UIコンポーネント実装
+  - 🔄 機能別コンポーネント実装
+  - 🔄 フォームベースコンポーネント実装
 
 ## 次のステップ
-1. **TDD実践方法の改善**
-   - モックの簡素化（jest-mock-extendedの導入検討）
-   - テストヘルパー関数の作成（src/test/helpers.ts）
-   - テスト実行スクリプトの分離（package.jsonの更新）
-2. **テスト環境の改善**
-   - NextRequest/NextResponseのモック実装
-   - AuthServiceのモックメソッド問題解決
-   - auth.handler.tsファイルのコンソールエラー修正
-   - テスト実行スクリプトの分離
-3. **フロントエンド実装**
-   - ページタイトルの修正（現在は "Create Next App"）
-   - Todoリスト表示コンポーネントの実装
-   - 認証UI（サインイン/サインアップ/パスワードリセット）の実装
-   - Todo作成・編集フォーム実装
-   - ページレイアウト実装
-4. **Projects/Workspaces API実装**
-   - スキーマ定義の確認
-   - APIエンドポイント実装
-   - サービス層実装
-   - テスト実装
-5. **ページレイアウト改善**
-   - 基本レイアウト構造実装
-   - ナビゲーション実装
-   - レスポンシブデザイン対応
+1. **テスト環境の最適化**
+   - 🔄 テスト実行スクリプトの分離（package.jsonの更新）
+2. **フロントエンド実装**
+   - 🔄 ページタイトルの修正（現在は "Create Next App"）
+   - 🔄 Todoリスト表示コンポーネントの実装
+   - 🔄 認証UI（サインイン/サインアップ/パスワードリセット）の実装
+   - 🔄 Todo作成・編集フォーム実装
+3. **Projects/Workspaces API実装**
+   - 🔄 スキーマ定義の確認
+   - 🔄 APIエンドポイント実装
+   - 🔄 サービス層実装
+   - 🔄 テスト実装
+4. **ページレイアウト改善**
+   - 🔄 基本レイアウト構造実装
+   - 🔄 ナビゲーション実装
+   - 🔄 レスポンシブデザイン対応
 
 ## アクティブな決定事項
 - **TDD**: テスト→実装→リファクタリングサイクル
@@ -128,18 +138,18 @@
 - **テストモック戦略**:
   - NextResponse.jsonのモックには@ts-expect-errorディレクティブを使用
   - AuthServiceのモックにはjest.spyOnの使用を検討
-  - モックの簡素化と標準化（jest-mock-extendedの導入検討）
+  - モックの簡素化と標準化（jest-mock-extendedの導入）
+- **NextRequest/NextResponseのモック実装**:
+  - 拡張されたモッククラスの実装（URL、メソッド、ヘッダー、クッキーなどのプロパティを含む）
+  - 便利なファクトリーメソッドの提供（withBody、withUrlAndMethod）
+  - モジュールのモック化（jest.mock('next/server', ...)）
 
 ## 現在の課題
 - TDD実践の問題
-  - モックの複雑さと不一致（NextRequest/NextResponseのモック問題）
   - テストの冗長性と可読性の低下
   - テスト間の依存関係
   - テスト粒度の不適切さ（実装の詳細に依存しすぎている）
 - テスト環境の問題
-  - NextRequest/NextResponseのモック実装が不完全
-  - AuthServiceのモックメソッド（mockResolvedValue、mockRejectedValue）が機能していない
-  - auth.handler.tsファイルにコンソールエラーメッセージのカンマ欠落
   - Playwrightテストの実行方法（`npm run test:e2e`で実行する必要あり）
 - フロントエンド実装の不足
   - ページタイトルが未設定（現在は "Create Next App"）
