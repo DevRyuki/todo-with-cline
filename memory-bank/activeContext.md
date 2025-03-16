@@ -39,8 +39,8 @@
 
 ## 進行中の作業
 - テスト環境の改善（優先度：高）
+  - テストファイルの構文エラー修正
   - JSX変換エラー解消
-  - Next.js環境エラー解消
   - モジュールパスエラー解消
   - Jest設定の最適化
 - Todo作成・編集フォーム開発（優先度：中）
@@ -60,15 +60,19 @@
 
 ## 次のステップ
 1. **テスト環境の改善**
+   - テストファイルの構文エラー修正
+     - 関数宣言の括弧の欠落（例: `describe('AuthService' () => {`）
+     - カンマの欠落
+     - `async` キーワードの欠落
    - Jest設定の最適化（ESモジュール対応、JSX変換設定）
-   - Next.js環境のモック設定
    - モジュールパスエイリアス設定の修正
    - テスト実行スクリプトの分離（コンポーネント/サービス/ハンドラー）
-2. **Todo作成・編集フォーム開発**
-   - 基本フォームコンポーネント実装
-   - フォームバリデーション
-   - モーダル統合
-   - メインページ更新
+2. **フロントエンド実装**
+   - ページタイトルの修正（現在は "Create Next App"）
+   - Todoリスト表示コンポーネントの実装
+   - 認証UI（サインイン/サインアップ/パスワードリセット）の実装
+   - Todo作成・編集フォーム実装
+   - ページレイアウト実装
 3. **Projects/Workspaces API実装**
    - スキーマ定義の確認
    - APIエンドポイント実装
@@ -97,10 +101,20 @@
 
 ## 現在の課題
 - テスト環境の問題
+  - テストファイルの構文エラー
+    - 関数宣言の括弧の欠落（例: `describe('AuthService' () => {`）
+    - カンマの欠落
+    - `async` キーワードの欠落
   - JSX変換エラー（`SyntaxError: Unexpected token '<'`）
-  - Next.js環境エラー（`ReferenceError: Request is not defined`）
+  - Next.js環境エラー（`ReferenceError: Request is not defined`）- jest.setup.jsで対応済み
   - モジュールパスエラー（`Could not locate module @/features/auth/schemas/password.schema`）
   - Playwrightテストの実行方法（`npm run test:e2e`で実行する必要あり）
+- フロントエンド実装の不足
+  - ページタイトルが未設定（現在は "Create Next App"）
+  - Todoリスト表示コンポーネントが未実装（data-testid="todo-list"が見つからない）
+  - 認証UI（signin-form, signup-form, forgot-password-formが見つからない）
+  - Todo作成・編集フォームが未実装
+  - ページレイアウトが未実装
 - DBリレーションシップ最適設計
 - パフォーマンス最適化
 - スケーラビリティ確保
@@ -112,6 +126,7 @@
   - テストデータの一貫性確保
   - テスト間の独立性維持
   - テスト実行速度の最適化
+  - すべてのE2Eテストが失敗（UIコンポーネントが実装されていないため）
 - テスト環境の重複ファイル（setupTests.js と setupTests.cjs）の整理
 
 ## 検討中の代替案
