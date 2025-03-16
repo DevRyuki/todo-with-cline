@@ -17,6 +17,18 @@ export interface MockNextRequest extends Partial<NextRequest> {
   json: jest.Mock;
 }
 
+// NextRequest のグローバル拡張
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace NodeJS {
+    interface Global {
+      NextRequest: typeof NextRequest & {
+        withBody(body: unknown): NextRequest;
+      };
+    }
+  }
+}
+
 // NextResponse モック用の型定義
 export interface MockNextResponse extends Partial<NextResponse> {
   status: number;
