@@ -70,6 +70,643 @@
     - ❌ next-test-api-route-handlerの導入（APIルートテスト）- App Routerとの互換性の問題により不要と判断
     - ✅ MSWの導入（APIリクエストのモック）- フェッチャーのテストに有効
   - 🔄 Jest設定の最適化
+    - ✅ テスト実行スクリプトの分離（コンポーネント/サービス/ハンドラー）
+# アクティブコンテキスト
+
+## 現在の作業焦点
+- テスト環境の最適化
+- フロントエンド実装
+- Projects/Workspaces API実装
+- ページレイアウト改善
+
+## 最近の変更
+- DBスキーマ定義（Drizzle）
+- Todos CRUD API実装
+- プロジェクト/ワークスペーススキーマ定義
+- フィーチャーベース構造導入
+- 認証バックエンド実装（NextAuth）
+- パスワードリセット機能実装（Resend）
+- 認証UI実装（ログイン/登録/リセット）
+- コンポーネント適切分離
+- モック型定義改善（jest.d.ts）
+- TodoListコンポーネント実装
+- コンポーネント/API統合テスト実装
+- テスト用型定義ファイル作成
+- E2Eテスト環境構築（Playwright）
+- E2Eテスト実装
+  - 認証関連テスト（サインイン/サインアップ/パスワードリセット）
+  - Todoアプリ基本機能テスト（表示/完了状態切替）
+  - テストデータベースリセット機能
+- データフェッチング機能実装
+  - Todoフェッチャー実装（APIとの通信）
+  - Todoカスタムフック実装（useTodos）
+  - エラーハンドリングとローディング状態管理
+  - TodoListコンポーネントをカスタムフック使用に更新
+- APIルートのインポートパス修正
+- Jest設定の最適化
+  - jest.config.tsの改善（next/jest使用）
+  - jest.setup.tsへの移行
+  - モジュールパスエイリアス設定
+- テストファイルの構文エラー修正
+  - 関数宣言の括弧の欠落修正
+  - カンマの欠落修正
+  - `async` キーワードの欠落修正
+- setupTests.jsとsetupTests.cjsの重複解消
+- テスト環境の問題解決
+  - JSX変換エラー解消（`SyntaxError: Unexpected token '<'`）
+  - TextEncoder未定義エラー解消（`ReferenceError: TextEncoder is not defined`）
+  - Next.js環境エラーの一部解消（Request, Response, Headersクラスのモック）
+  - Playwrightテストの分離（testPathIgnorePatternsで除外）
+  - TodoListコンポーネントのエラーメッセージ修正
+  - 認証関連テストのインポートエラー解消
+  - ハンドラーテストの構文エラー修正（NextResponse.jsonのモック）
+  - NextRequest/NextResponseのモック実装の改善（jest.setup.tsの更新）
+  - auth.handler.tsファイルのコンソールエラーメッセージのカンマ欠落修正
+  - todos.handler.tsファイルのコンソールエラーメッセージのカンマ欠落修正
+  - use-todos.tsファイルのコンソールエラーメッセージのカンマ欠落修正
+- TDD実践方法の詳細化
+  - systemPatterns.mdにTDDの具体的な実践方法を追加
+  - テスト→実装→リファクタリングの各ステップの詳細化
+  - 実装例の追加
+- モックライブラリの導入（jest-mock-extended）
+  - 型安全なモックを簡単に作成
+  - AuthServiceのモック問題を解決
+- テストヘルパー関数の作成（src/test/helpers.ts）
+  - createMockAuthService()
+  - createMockRequest()
+  - expectJsonResponse()
+- NextResponseのモック簡素化（jest.setup.tsの修正）
+
+## 進行中の作業
+- テスト環境の改善（優先度：高）
+  - ✅ モックライブラリの導入と活用
+    - ❌ next-test-api-route-handlerの導入（APIルートテスト）- App Routerとの互換性の問題により不要と判断
+    - ✅ MSWの導入（APIリクエストのモック）- フェッチャーのテストに有効
+# アクティブコンテキスト
+
+## 現在の作業焦点
+- テスト環境の最適化
+- フロントエンド実装
+- Projects/Workspaces API実装
+- ページレイアウト改善
+
+## 最近の変更
+- DBスキーマ定義（Drizzle）
+- Todos CRUD API実装
+- プロジェクト/ワークスペーススキーマ定義
+- フィーチャーベース構造導入
+- 認証バックエンド実装（NextAuth）
+- パスワードリセット機能実装（Resend）
+- 認証UI実装（ログイン/登録/リセット）
+- コンポーネント適切分離
+- モック型定義改善（jest.d.ts）
+- TodoListコンポーネント実装
+- コンポーネント/API統合テスト実装
+- テスト用型定義ファイル作成
+- E2Eテスト環境構築（Playwright）
+- E2Eテスト実装
+  - 認証関連テスト（サインイン/サインアップ/パスワードリセット）
+  - Todoアプリ基本機能テスト（表示/完了状態切替）
+  - テストデータベースリセット機能
+- データフェッチング機能実装
+  - Todoフェッチャー実装（APIとの通信）
+  - Todoカスタムフック実装（useTodos）
+  - エラーハンドリングとローディング状態管理
+  - TodoListコンポーネントをカスタムフック使用に更新
+- APIルートのインポートパス修正
+- Jest設定の最適化
+  - jest.config.tsの改善（next/jest使用）
+  - jest.setup.tsへの移行
+  - モジュールパスエイリアス設定
+- テストファイルの構文エラー修正
+  - 関数宣言の括弧の欠落修正
+  - カンマの欠落修正
+  - `async` キーワードの欠落修正
+- setupTests.jsとsetupTests.cjsの重複解消
+- テスト環境の問題解決
+  - JSX変換エラー解消（`SyntaxError: Unexpected token '<'`）
+  - TextEncoder未定義エラー解消（`ReferenceError: TextEncoder is not defined`）
+  - Next.js環境エラーの一部解消（Request, Response, Headersクラスのモック）
+  - Playwrightテストの分離（testPathIgnorePatternsで除外）
+  - TodoListコンポーネントのエラーメッセージ修正
+  - 認証関連テストのインポートエラー解消
+  - ハンドラーテストの構文エラー修正（NextResponse.jsonのモック）
+  - NextRequest/NextResponseのモック実装の改善（jest.setup.tsの更新）
+  - auth.handler.tsファイルのコンソールエラーメッセージのカンマ欠落修正
+  - todos.handler.tsファイルのコンソールエラーメッセージのカンマ欠落修正
+  - use-todos.tsファイルのコンソールエラーメッセージのカンマ欠落修正
+- TDD実践方法の詳細化
+  - systemPatterns.mdにTDDの具体的な実践方法を追加
+  - テスト→実装→リファクタリングの各ステップの詳細化
+  - 実装例の追加
+- モックライブラリの導入（jest-mock-extended）
+  - 型安全なモックを簡単に作成
+  - AuthServiceのモック問題を解決
+- テストヘルパー関数の作成（src/test/helpers.ts）
+  - createMockAuthService()
+  - createMockRequest()
+  - expectJsonResponse()
+- NextResponseのモック簡素化（jest.setup.tsの修正）
+
+## 進行中の作業
+- テスト環境の改善（優先度：高）
+  - ✅ モックライブラリの導入と活用
+    - ❌ next-test-api-route-handlerの導入（APIルートテスト）- App Routerとの互換性の問題により不要と判断
+    - ✅ MSWの導入（APIリクエストのモック）- フェッチャーのテストに有効
+  - 🔄 Jest設定の最適化
+    - 🔄 テスト実行スクリプトの分離（コンポーネント/サービス/ハンドラー）
+  - 🔄 E2Eテスト拡充
+- TDD実践方法の改善（優先度：高）
+  - 🔄 テスト粒度の最適化
+- フロントエンド実装（優先度：高）
+  - 🔄 ページタイトルの修正（現在は "Create Next App"）
+  - 🔄 Todoリスト表示コンポーネント実装（data-testid="todo-list"が見つからない）
+  - 🔄 認証UI実装（signin-form, signup-form, forgot-password-formが見つからない）
+- Todo作成・編集フォーム開発（優先度：中）
+  - 🔄 基本フォームコンポーネント実装
+  - 🔄 フォームバリデーション
+  - 🔄 フォームモーダル実装
+  - 🔄 メインページ統合
+- Projects/Workspaces API実装（優先度：中）
+  - 🔄 スキーマ定義の確認
+  - 🔄 APIエンドポイント実装
+  - 🔄 サービス層実装
+  - 🔄 テスト実装
+- ページレイアウト改善（優先度：中）
+  - 🔄 基本レイアウト構造実装
+  - 🔄 ナビゲーション実装
+  - 🔄 レスポンシブデザイン対応
+  - 🔄 テーマ・スタイリング調整
+- UIコンポーネント設計（優先度：中）
+  - 🔄 共通UIコンポーネント実装
+  - 🔄 機能別コンポーネント実装
+  - 🔄 フォームベースコンポーネント実装
+
+## 次のステップ
+1. **フロントエンド実装**
+   - 🔄 ページタイトルの修正（現在は "Create Next App"）
+   - 🔄 Todoリスト表示コンポーネントの実装
+   - 🔄 認証UI（サインイン/サインアップ/パスワードリセット）の実装
+# アクティブコンテキスト
+
+## 現在の作業焦点
+- テスト環境の最適化
+- フロントエンド実装
+- Projects/Workspaces API実装
+- ページレイアウト改善
+
+## 最近の変更
+- DBスキーマ定義（Drizzle）
+- Todos CRUD API実装
+- プロジェクト/ワークスペーススキーマ定義
+- フィーチャーベース構造導入
+- 認証バックエンド実装（NextAuth）
+- パスワードリセット機能実装（Resend）
+- 認証UI実装（ログイン/登録/リセット）
+- コンポーネント適切分離
+- モック型定義改善（jest.d.ts）
+- TodoListコンポーネント実装
+- コンポーネント/API統合テスト実装
+- テスト用型定義ファイル作成
+- E2Eテスト環境構築（Playwright）
+- E2Eテスト実装
+  - 認証関連テスト（サインイン/サインアップ/パスワードリセット）
+  - Todoアプリ基本機能テスト（表示/完了状態切替）
+  - テストデータベースリセット機能
+- データフェッチング機能実装
+  - Todoフェッチャー実装（APIとの通信）
+  - Todoカスタムフック実装（useTodos）
+  - エラーハンドリングとローディング状態管理
+  - TodoListコンポーネントをカスタムフック使用に更新
+- APIルートのインポートパス修正
+- Jest設定の最適化
+  - jest.config.tsの改善（next/jest使用）
+  - jest.setup.tsへの移行
+  - モジュールパスエイリアス設定
+- テストファイルの構文エラー修正
+  - 関数宣言の括弧の欠落修正
+  - カンマの欠落修正
+  - `async` キーワードの欠落修正
+- setupTests.jsとsetupTests.cjsの重複解消
+- テスト環境の問題解決
+  - JSX変換エラー解消（`SyntaxError: Unexpected token '<'`）
+  - TextEncoder未定義エラー解消（`ReferenceError: TextEncoder is not defined`）
+  - Next.js環境エラーの一部解消（Request, Response, Headersクラスのモック）
+  - Playwrightテストの分離（testPathIgnorePatternsで除外）
+  - TodoListコンポーネントのエラーメッセージ修正
+  - 認証関連テストのインポートエラー解消
+  - ハンドラーテストの構文エラー修正（NextResponse.jsonのモック）
+  - NextRequest/NextResponseのモック実装の改善（jest.setup.tsの更新）
+  - auth.handler.tsファイルのコンソールエラーメッセージのカンマ欠落修正
+  - todos.handler.tsファイルのコンソールエラーメッセージのカンマ欠落修正
+  - use-todos.tsファイルのコンソールエラーメッセージのカンマ欠落修正
+- TDD実践方法の詳細化
+  - systemPatterns.mdにTDDの具体的な実践方法を追加
+  - テスト→実装→リファクタリングの各ステップの詳細化
+  - 実装例の追加
+- モックライブラリの導入（jest-mock-extended）
+  - 型安全なモックを簡単に作成
+  - AuthServiceのモック問題を解決
+- テストヘルパー関数の作成（src/test/helpers.ts）
+  - createMockAuthService()
+  - createMockRequest()
+  - expectJsonResponse()
+- NextResponseのモック簡素化（jest.setup.tsの修正）
+
+## 進行中の作業
+- テスト環境の改善（優先度：高）
+  - ✅ モックライブラリの導入と活用
+    - ❌ next-test-api-route-handlerの導入（APIルートテスト）- App Routerとの互換性の問題により不要と判断
+    - ✅ MSWの導入（APIリクエストのモック）- フェッチャーのテストに有効
+  - 🔄 Jest設定の最適化
+    - ✅ テスト実行スクリプトの分離（コンポーネント/サービス/ハンドラー）
+# アクティブコンテキスト
+
+## 現在の作業焦点
+- テスト環境の最適化
+- フロントエンド実装
+- Projects/Workspaces API実装
+- ページレイアウト改善
+
+## 最近の変更
+- DBスキーマ定義（Drizzle）
+- Todos CRUD API実装
+- プロジェクト/ワークスペーススキーマ定義
+- フィーチャーベース構造導入
+- 認証バックエンド実装（NextAuth）
+- パスワードリセット機能実装（Resend）
+- 認証UI実装（ログイン/登録/リセット）
+- コンポーネント適切分離
+- モック型定義改善（jest.d.ts）
+- TodoListコンポーネント実装
+- コンポーネント/API統合テスト実装
+- テスト用型定義ファイル作成
+- E2Eテスト環境構築（Playwright）
+- E2Eテスト実装
+  - 認証関連テスト（サインイン/サインアップ/パスワードリセット）
+  - Todoアプリ基本機能テスト（表示/完了状態切替）
+  - テストデータベースリセット機能
+- データフェッチング機能実装
+  - Todoフェッチャー実装（APIとの通信）
+  - Todoカスタムフック実装（useTodos）
+  - エラーハンドリングとローディング状態管理
+  - TodoListコンポーネントをカスタムフック使用に更新
+- APIルートのインポートパス修正
+- Jest設定の最適化
+  - jest.config.tsの改善（next/jest使用）
+  - jest.setup.tsへの移行
+  - モジュールパスエイリアス設定
+- テストファイルの構文エラー修正
+  - 関数宣言の括弧の欠落修正
+  - カンマの欠落修正
+  - `async` キーワードの欠落修正
+- setupTests.jsとsetupTests.cjsの重複解消
+- テスト環境の問題解決
+  - JSX変換エラー解消（`SyntaxError: Unexpected token '<'`）
+  - TextEncoder未定義エラー解消（`ReferenceError: TextEncoder is not defined`）
+  - Next.js環境エラーの一部解消（Request, Response, Headersクラスのモック）
+  - Playwrightテストの分離（testPathIgnorePatternsで除外）
+  - TodoListコンポーネントのエラーメッセージ修正
+  - 認証関連テストのインポートエラー解消
+  - ハンドラーテストの構文エラー修正（NextResponse.jsonのモック）
+  - NextRequest/NextResponseのモック実装の改善（jest.setup.tsの更新）
+  - auth.handler.tsファイルのコンソールエラーメッセージのカンマ欠落修正
+  - todos.handler.tsファイルのコンソールエラーメッセージのカンマ欠落修正
+  - use-todos.tsファイルのコンソールエラーメッセージのカンマ欠落修正
+- TDD実践方法の詳細化
+  - systemPatterns.mdにTDDの具体的な実践方法を追加
+  - テスト→実装→リファクタリングの各ステップの詳細化
+  - 実装例の追加
+- モックライブラリの導入（jest-mock-extended）
+  - 型安全なモックを簡単に作成
+  - AuthServiceのモック問題を解決
+- テストヘルパー関数の作成（src/test/helpers.ts）
+  - createMockAuthService()
+  - createMockRequest()
+  - expectJsonResponse()
+- NextResponseのモック簡素化（jest.setup.tsの修正）
+
+## 進行中の作業
+- テスト環境の改善（優先度：高）
+  - ✅ モックライブラリの導入と活用
+    - ❌ next-test-api-route-handlerの導入（APIルートテスト）- App Routerとの互換性の問題により不要と判断
+    - ✅ MSWの導入（APIリクエストのモック）- フェッチャーのテストに有効
+# アクティブコンテキスト
+
+## 現在の作業焦点
+- テスト環境の最適化
+- フロントエンド実装
+- Projects/Workspaces API実装
+- ページレイアウト改善
+
+## 最近の変更
+- DBスキーマ定義（Drizzle）
+- Todos CRUD API実装
+- プロジェクト/ワークスペーススキーマ定義
+- フィーチャーベース構造導入
+- 認証バックエンド実装（NextAuth）
+- パスワードリセット機能実装（Resend）
+- 認証UI実装（ログイン/登録/リセット）
+- コンポーネント適切分離
+- モック型定義改善（jest.d.ts）
+- TodoListコンポーネント実装
+- コンポーネント/API統合テスト実装
+- テスト用型定義ファイル作成
+- E2Eテスト環境構築（Playwright）
+- E2Eテスト実装
+  - 認証関連テスト（サインイン/サインアップ/パスワードリセット）
+  - Todoアプリ基本機能テスト（表示/完了状態切替）
+  - テストデータベースリセット機能
+- データフェッチング機能実装
+  - Todoフェッチャー実装（APIとの通信）
+  - Todoカスタムフック実装（useTodos）
+  - エラーハンドリングとローディング状態管理
+  - TodoListコンポーネントをカスタムフック使用に更新
+- APIルートのインポートパス修正
+- Jest設定の最適化
+  - jest.config.tsの改善（next/jest使用）
+  - jest.setup.tsへの移行
+  - モジュールパスエイリアス設定
+- テストファイルの構文エラー修正
+  - 関数宣言の括弧の欠落修正
+  - カンマの欠落修正
+  - `async` キーワードの欠落修正
+- setupTests.jsとsetupTests.cjsの重複解消
+- テスト環境の問題解決
+  - JSX変換エラー解消（`SyntaxError: Unexpected token '<'`）
+  - TextEncoder未定義エラー解消（`ReferenceError: TextEncoder is not defined`）
+  - Next.js環境エラーの一部解消（Request, Response, Headersクラスのモック）
+  - Playwrightテストの分離（testPathIgnorePatternsで除外）
+  - TodoListコンポーネントのエラーメッセージ修正
+  - 認証関連テストのインポートエラー解消
+  - ハンドラーテストの構文エラー修正（NextResponse.jsonのモック）
+  - NextRequest/NextResponseのモック実装の改善（jest.setup.tsの更新）
+  - auth.handler.tsファイルのコンソールエラーメッセージのカンマ欠落修正
+  - todos.handler.tsファイルのコンソールエラーメッセージのカンマ欠落修正
+  - use-todos.tsファイルのコンソールエラーメッセージのカンマ欠落修正
+- TDD実践方法の詳細化
+  - systemPatterns.mdにTDDの具体的な実践方法を追加
+  - テスト→実装→リファクタリングの各ステップの詳細化
+  - 実装例の追加
+- モックライブラリの導入（jest-mock-extended）
+  - 型安全なモックを簡単に作成
+  - AuthServiceのモック問題を解決
+- テストヘルパー関数の作成（src/test/helpers.ts）
+  - createMockAuthService()
+  - createMockRequest()
+  - expectJsonResponse()
+- NextResponseのモック簡素化（jest.setup.tsの修正）
+
+## 進行中の作業
+- テスト環境の改善（優先度：高）
+  - ✅ モックライブラリの導入と活用
+    - ❌ next-test-api-route-handlerの導入（APIルートテスト）- App Routerとの互換性の問題により不要と判断
+    - ✅ MSWの導入（APIリクエストのモック）- フェッチャーのテストに有効
+  - 🔄 Jest設定の最適化
+    - 🔄 テスト実行スクリプトの分離（コンポーネント/サービス/ハンドラー）
+  - 🔄 E2Eテスト拡充
+- TDD実践方法の改善（優先度：高）
+  - 🔄 テスト粒度の最適化
+- フロントエンド実装（優先度：高）
+  - 🔄 ページタイトルの修正（現在は "Create Next App"）
+  - 🔄 Todoリスト表示コンポーネント実装（data-testid="todo-list"が見つからない）
+  - 🔄 認証UI実装（signin-form, signup-form, forgot-password-formが見つからない）
+- Todo作成・編集フォーム開発（優先度：中）
+  - 🔄 基本フォームコンポーネント実装
+  - 🔄 フォームバリデーション
+  - 🔄 フォームモーダル実装
+  - 🔄 メインページ統合
+- Projects/Workspaces API実装（優先度：中）
+  - 🔄 スキーマ定義の確認
+  - 🔄 APIエンドポイント実装
+  - 🔄 サービス層実装
+  - 🔄 テスト実装
+- ページレイアウト改善（優先度：中）
+  - 🔄 基本レイアウト構造実装
+  - 🔄 ナビゲーション実装
+  - 🔄 レスポンシブデザイン対応
+  - 🔄 テーマ・スタイリング調整
+- UIコンポーネント設計（優先度：中）
+  - 🔄 共通UIコンポーネント実装
+  - 🔄 機能別コンポーネント実装
+  - 🔄 フォームベースコンポーネント実装
+
+# アクティブコンテキスト
+
+## 現在の作業焦点
+- テスト環境の最適化
+- フロントエンド実装
+- Projects/Workspaces API実装
+- ページレイアウト改善
+
+## 最近の変更
+- DBスキーマ定義（Drizzle）
+- Todos CRUD API実装
+- プロジェクト/ワークスペーススキーマ定義
+- フィーチャーベース構造導入
+- 認証バックエンド実装（NextAuth）
+- パスワードリセット機能実装（Resend）
+- 認証UI実装（ログイン/登録/リセット）
+- コンポーネント適切分離
+- モック型定義改善（jest.d.ts）
+- TodoListコンポーネント実装
+- コンポーネント/API統合テスト実装
+- テスト用型定義ファイル作成
+- E2Eテスト環境構築（Playwright）
+- E2Eテスト実装
+  - 認証関連テスト（サインイン/サインアップ/パスワードリセット）
+  - Todoアプリ基本機能テスト（表示/完了状態切替）
+  - テストデータベースリセット機能
+- データフェッチング機能実装
+  - Todoフェッチャー実装（APIとの通信）
+  - Todoカスタムフック実装（useTodos）
+  - エラーハンドリングとローディング状態管理
+  - TodoListコンポーネントをカスタムフック使用に更新
+- APIルートのインポートパス修正
+- Jest設定の最適化
+  - jest.config.tsの改善（next/jest使用）
+  - jest.setup.tsへの移行
+  - モジュールパスエイリアス設定
+- テストファイルの構文エラー修正
+  - 関数宣言の括弧の欠落修正
+  - カンマの欠落修正
+  - `async` キーワードの欠落修正
+- setupTests.jsとsetupTests.cjsの重複解消
+- テスト環境の問題解決
+  - JSX変換エラー解消（`SyntaxError: Unexpected token '<'`）
+  - TextEncoder未定義エラー解消（`ReferenceError: TextEncoder is not defined`）
+  - Next.js環境エラーの一部解消（Request, Response, Headersクラスのモック）
+  - Playwrightテストの分離（testPathIgnorePatternsで除外）
+  - TodoListコンポーネントのエラーメッセージ修正
+  - 認証関連テストのインポートエラー解消
+  - ハンドラーテストの構文エラー修正（NextResponse.jsonのモック）
+  - NextRequest/NextResponseのモック実装の改善（jest.setup.tsの更新）
+  - auth.handler.tsファイルのコンソールエラーメッセージのカンマ欠落修正
+  - todos.handler.tsファイルのコンソールエラーメッセージのカンマ欠落修正
+  - use-todos.tsファイルのコンソールエラーメッセージのカンマ欠落修正
+- TDD実践方法の詳細化
+  - systemPatterns.mdにTDDの具体的な実践方法を追加
+  - テスト→実装→リファクタリングの各ステップの詳細化
+  - 実装例の追加
+- モックライブラリの導入（jest-mock-extended）
+  - 型安全なモックを簡単に作成
+  - AuthServiceのモック問題を解決
+- テストヘルパー関数の作成（src/test/helpers.ts）
+  - createMockAuthService()
+  - createMockRequest()
+  - expectJsonResponse()
+- NextResponseのモック簡素化（jest.setup.tsの修正）
+
+## 進行中の作業
+- テスト環境の改善（優先度：高）
+  - ✅ モックライブラリの導入と活用
+    - ❌ next-test-api-route-handlerの導入（APIルートテスト）- App Routerとの互換性の問題により不要と判断
+    - ✅ MSWの導入（APIリクエストのモック）- フェッチャーのテストに有効
+  - 🔄 Jest設定の最適化
+    - ✅ テスト実行スクリプトの分離（コンポーネント/サービス/ハンドラー）
+# アクティブコンテキスト
+
+## 現在の作業焦点
+- テスト環境の最適化
+- フロントエンド実装
+- Projects/Workspaces API実装
+- ページレイアウト改善
+
+## 最近の変更
+- DBスキーマ定義（Drizzle）
+- Todos CRUD API実装
+- プロジェクト/ワークスペーススキーマ定義
+- フィーチャーベース構造導入
+- 認証バックエンド実装（NextAuth）
+- パスワードリセット機能実装（Resend）
+- 認証UI実装（ログイン/登録/リセット）
+- コンポーネント適切分離
+- モック型定義改善（jest.d.ts）
+- TodoListコンポーネント実装
+- コンポーネント/API統合テスト実装
+- テスト用型定義ファイル作成
+- E2Eテスト環境構築（Playwright）
+- E2Eテスト実装
+  - 認証関連テスト（サインイン/サインアップ/パスワードリセット）
+  - Todoアプリ基本機能テスト（表示/完了状態切替）
+  - テストデータベースリセット機能
+- データフェッチング機能実装
+  - Todoフェッチャー実装（APIとの通信）
+  - Todoカスタムフック実装（useTodos）
+  - エラーハンドリングとローディング状態管理
+  - TodoListコンポーネントをカスタムフック使用に更新
+- APIルートのインポートパス修正
+- Jest設定の最適化
+  - jest.config.tsの改善（next/jest使用）
+  - jest.setup.tsへの移行
+  - モジュールパスエイリアス設定
+- テストファイルの構文エラー修正
+  - 関数宣言の括弧の欠落修正
+  - カンマの欠落修正
+  - `async` キーワードの欠落修正
+- setupTests.jsとsetupTests.cjsの重複解消
+- テスト環境の問題解決
+  - JSX変換エラー解消（`SyntaxError: Unexpected token '<'`）
+  - TextEncoder未定義エラー解消（`ReferenceError: TextEncoder is not defined`）
+  - Next.js環境エラーの一部解消（Request, Response, Headersクラスのモック）
+  - Playwrightテストの分離（testPathIgnorePatternsで除外）
+  - TodoListコンポーネントのエラーメッセージ修正
+  - 認証関連テストのインポートエラー解消
+  - ハンドラーテストの構文エラー修正（NextResponse.jsonのモック）
+  - NextRequest/NextResponseのモック実装の改善（jest.setup.tsの更新）
+  - auth.handler.tsファイルのコンソールエラーメッセージのカンマ欠落修正
+  - todos.handler.tsファイルのコンソールエラーメッセージのカンマ欠落修正
+  - use-todos.tsファイルのコンソールエラーメッセージのカンマ欠落修正
+- TDD実践方法の詳細化
+  - systemPatterns.mdにTDDの具体的な実践方法を追加
+  - テスト→実装→リファクタリングの各ステップの詳細化
+  - 実装例の追加
+- モックライブラリの導入（jest-mock-extended）
+  - 型安全なモックを簡単に作成
+  - AuthServiceのモック問題を解決
+- テストヘルパー関数の作成（src/test/helpers.ts）
+  - createMockAuthService()
+  - createMockRequest()
+  - expectJsonResponse()
+- NextResponseのモック簡素化（jest.setup.tsの修正）
+
+## 進行中の作業
+- テスト環境の改善（優先度：高）
+  - ✅ モックライブラリの導入と活用
+    - ❌ next-test-api-route-handlerの導入（APIルートテスト）- App Routerとの互換性の問題により不要と判断
+    - ✅ MSWの導入（APIリクエストのモック）- フェッチャーのテストに有効
+# アクティブコンテキスト
+
+## 現在の作業焦点
+- テスト環境の最適化
+- フロントエンド実装
+- Projects/Workspaces API実装
+- ページレイアウト改善
+
+## 最近の変更
+- DBスキーマ定義（Drizzle）
+- Todos CRUD API実装
+- プロジェクト/ワークスペーススキーマ定義
+- フィーチャーベース構造導入
+- 認証バックエンド実装（NextAuth）
+- パスワードリセット機能実装（Resend）
+- 認証UI実装（ログイン/登録/リセット）
+- コンポーネント適切分離
+- モック型定義改善（jest.d.ts）
+- TodoListコンポーネント実装
+- コンポーネント/API統合テスト実装
+- テスト用型定義ファイル作成
+- E2Eテスト環境構築（Playwright）
+- E2Eテスト実装
+  - 認証関連テスト（サインイン/サインアップ/パスワードリセット）
+  - Todoアプリ基本機能テスト（表示/完了状態切替）
+  - テストデータベースリセット機能
+- データフェッチング機能実装
+  - Todoフェッチャー実装（APIとの通信）
+  - Todoカスタムフック実装（useTodos）
+  - エラーハンドリングとローディング状態管理
+  - TodoListコンポーネントをカスタムフック使用に更新
+- APIルートのインポートパス修正
+- Jest設定の最適化
+  - jest.config.tsの改善（next/jest使用）
+  - jest.setup.tsへの移行
+  - モジュールパスエイリアス設定
+- テストファイルの構文エラー修正
+  - 関数宣言の括弧の欠落修正
+  - カンマの欠落修正
+  - `async` キーワードの欠落修正
+- setupTests.jsとsetupTests.cjsの重複解消
+- テスト環境の問題解決
+  - JSX変換エラー解消（`SyntaxError: Unexpected token '<'`）
+  - TextEncoder未定義エラー解消（`ReferenceError: TextEncoder is not defined`）
+  - Next.js環境エラーの一部解消（Request, Response, Headersクラスのモック）
+  - Playwrightテストの分離（testPathIgnorePatternsで除外）
+  - TodoListコンポーネントのエラーメッセージ修正
+  - 認証関連テストのインポートエラー解消
+  - ハンドラーテストの構文エラー修正（NextResponse.jsonのモック）
+  - NextRequest/NextResponseのモック実装の改善（jest.setup.tsの更新）
+  - auth.handler.tsファイルのコンソールエラーメッセージのカンマ欠落修正
+  - todos.handler.tsファイルのコンソールエラーメッセージのカンマ欠落修正
+  - use-todos.tsファイルのコンソールエラーメッセージのカンマ欠落修正
+- TDD実践方法の詳細化
+  - systemPatterns.mdにTDDの具体的な実践方法を追加
+  - テスト→実装→リファクタリングの各ステップの詳細化
+  - 実装例の追加
+- モックライブラリの導入（jest-mock-extended）
+  - 型安全なモックを簡単に作成
+  - AuthServiceのモック問題を解決
+- テストヘルパー関数の作成（src/test/helpers.ts）
+  - createMockAuthService()
+  - createMockRequest()
+  - expectJsonResponse()
+- NextResponseのモック簡素化（jest.setup.tsの修正）
+
+## 進行中の作業
+- テスト環境の改善（優先度：高）
+  - ✅ モックライブラリの導入と活用
+    - ❌ next-test-api-route-handlerの導入（APIルートテスト）- App Routerとの互換性の問題により不要と判断
+    - ✅ MSWの導入（APIリクエストのモック）- フェッチャーのテストに有効
+  - 🔄 Jest設定の最適化
     - 🔄 テスト実行スクリプトの分離（コンポーネント/サービス/ハンドラー）
   - 🔄 E2Eテスト拡充
 - TDD実践方法の改善（優先度：高）

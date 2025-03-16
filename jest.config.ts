@@ -5,6 +5,7 @@ const createJestConfig = nextJest({
   dir: './',
 });
 
+// 基本設定
 const config: Config = {
   coverageProvider: 'v8',
   testEnvironment: 'jest-environment-jsdom',
