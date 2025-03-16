@@ -48,13 +48,13 @@ describe('useTodos', () => {
   it('autoFetch=trueの場合、マウント時にTodoを取得する', async () => {
     (todosFetcher.getAllTodos as jest.Mock).mockResolvedValue(mockTodos);
     const { result } = renderHook(() => useTodos());
-    
+
     expect(result.current.isLoading).toBe(true);
-    
+
     await waitFor(() => {
       expect(result.current.isLoading).toBe(false);
     });
-    
+
     expect(todosFetcher.getAllTodos).toHaveBeenCalledTimes(1);
     expect(result.current.todos).toEqual(mockTodos);
   });
@@ -67,13 +67,13 @@ describe('useTodos', () => {
   it('fetchTodosが正常に動作する', async () => {
     (todosFetcher.getAllTodos as jest.Mock).mockResolvedValue(mockTodos);
     const { result } = renderHook(() => useTodos({ autoFetch: false }));
-    
+
     expect(result.current.todos).toEqual([]);
-    
+
     act(() => {
       void result.current.fetchTodos();
     });
-    
+
     expect(result.current.isLoading).toBe(true);
     
     await waitFor(() => {
