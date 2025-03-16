@@ -40,7 +40,7 @@
   - ✅ TextEncoder未定義エラー解消（`ReferenceError: TextEncoder is not defined`）
   - ✅ Next.js環境エラーの一部解消（Request, Response, Headersクラスのモック）
   - 🔄 NextRequest/NextResponseのモック実装
-  - 🔄 ハンドラーテストの構文エラー修正
+  - ✅ ハンドラーテストの構文エラー修正
   - ✅ 認証関連テストのインポートエラー解消
   - ✅ モジュールパスエイリアス設定 - jest.config.tsで設定済み
 - 🔄 Jest設定の最適化
@@ -113,7 +113,8 @@
 ## 既知の問題
 - テスト環境の問題
   - NextRequest/NextResponseのモック実装が不完全
-  - ハンドラーテストでのNextResponse.jsonの構文エラー
+  - AuthServiceのモックメソッド（mockResolvedValue、mockRejectedValue）が機能していない
+  - auth.handler.tsファイルにコンソールエラーメッセージのカンマ欠落
   - Playwrightテストの実行方法（`npm run test:e2e`で実行する必要あり）
 - フロントエンド実装の不足
   - ページタイトルが未設定（現在は "Create Next App"）
@@ -129,7 +130,8 @@
 
 1. **テスト環境の改善**
    - NextRequest/NextResponseのモック実装
-   - ハンドラーテストの構文エラー修正
+   - AuthServiceのモックメソッド問題解決
+   - auth.handler.tsファイルのコンソールエラー修正
    - テスト実行スクリプトの分離
    - テスト実行の安定性向上
 
@@ -154,7 +156,8 @@
 ## 次のマイルストーン
 1. **テスト環境の改善**
    - NextRequest/NextResponseのモック実装
-   - ハンドラーテストの構文エラー修正
+   - AuthServiceのモックメソッド問題解決
+   - auth.handler.tsファイルのコンソールエラー修正
    - テスト実行スクリプトの分離
 2. **フロントエンド実装**
    - ページタイトルの修正

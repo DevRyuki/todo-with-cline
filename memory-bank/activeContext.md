@@ -48,12 +48,14 @@
   - ✅ Playwrightテストの分離（testPathIgnorePatternsで除外）
   - ✅ TodoListコンポーネントのエラーメッセージ修正
   - ✅ 認証関連テストのインポートエラー解消
+  - ✅ ハンドラーテストの構文エラー修正（NextResponse.jsonのモック）
 
 ## 進行中の作業
 - テスト環境の改善（優先度：高）
   - 🔄 Next.js環境エラーの完全解消（NextRequest/NextResponseのモック）
-  - 🔄 ハンドラーテストの修正（NextResponse.jsonの構文エラー）
   - 🔄 テスト実行スクリプトの分離（コンポーネント/サービス/ハンドラー）
+  - 🔄 AuthServiceのモックメソッド（mockResolvedValue、mockRejectedValue）の問題解決
+  - 🔄 auth.handler.tsファイルのコンソールエラー修正（カンマの欠落）
 - Todo作成・編集フォーム開発（優先度：中）
   - 基本フォームコンポーネント実装
   - フォームバリデーション
@@ -72,7 +74,8 @@
 ## 次のステップ
 1. **テスト環境の改善**
    - NextRequest/NextResponseのモック実装
-   - ハンドラーテストの構文エラー修正
+   - AuthServiceのモックメソッド問題解決
+   - auth.handler.tsファイルのコンソールエラー修正
    - テスト実行スクリプトの分離
 2. **フロントエンド実装**
    - ページタイトルの修正（現在は "Create Next App"）
@@ -106,11 +109,15 @@
   - ESモジュールサポート
   - Next.js環境のモック
   - JSX変換設定（ts-jestのuseESMとjsx: 'react-jsx'）
+- **テストモック戦略**:
+  - NextResponse.jsonのモックには@ts-expect-errorディレクティブを使用
+  - AuthServiceのモックにはjest.spyOnの使用を検討
 
 ## 現在の課題
 - テスト環境の問題
   - NextRequest/NextResponseのモック実装が不完全
-  - ハンドラーテストでのNextResponse.jsonの構文エラー
+  - AuthServiceのモックメソッド（mockResolvedValue、mockRejectedValue）が機能していない
+  - auth.handler.tsファイルにコンソールエラーメッセージのカンマ欠落
   - Playwrightテストの実行方法（`npm run test:e2e`で実行する必要あり）
 - フロントエンド実装の不足
   - ページタイトルが未設定（現在は "Create Next App"）
@@ -138,6 +145,7 @@
   - Jest設定の見直し vs Vitest導入
   - ts-jestの設定調整 vs babel-jestへの移行
   - Next.js環境のモック方法の改善
+  - next-test-api-route-handlerパッケージの使用
 
 ## 重要なメモ
 - APIパターン: `/api/[resource]`
@@ -155,6 +163,7 @@
   - Next.js環境のモック: MockRequest/MockResponse/MockHeadersクラスを実装
   - TextEncoder/TextDecoderのポリフィル: utilからインポート
   - Playwrightテスト: testPathIgnorePatternsで除外
+  - NextResponse.jsonのモック: @ts-expect-errorディレクティブを使用
 - E2Eテスト:
   - Playwrightフレームワーク使用
   - `npm run test:e2e`でテスト実行

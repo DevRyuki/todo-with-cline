@@ -3,6 +3,22 @@ import { NextRequest, NextResponse } from 'next/server';
 import { AuthHandler } from '../auth.handler';
 import { AuthService } from '../../services/auth.service';
 
+// NextResponseのモック
+// @ts-expect-error - NextResponseのモックに関する型エラーを無視
+jest.mock('next/server', () => {
+  return {
+    NextRequest: jest.requireActual('next/server').NextRequest,
+    NextResponse: {
+      json: jest.fn().mockImplementation((body, init) => {
+        return {
+          status: init?.status || 200,
+          json: async () => body,
+        };
+      }),
+    },
+  };
+});
+
 // AuthServiceのモック
 jest.mock('../../services/auth.service');
 
@@ -32,6 +48,7 @@ describe('AuthHandler', () => {
 
       // モックリクエスト
       const mockRequest = {
+        // @ts-expect-error - NextRequestのjsonメソッドに関する型エラーを無視
         json: jest.fn().mockResolvedValue(requestData),
       } as unknown as NextRequest;
 
@@ -48,16 +65,17 @@ describe('AuthHandler', () => {
       // 検証
       expect(mockRequest.json).toHaveBeenCalled();
       expect(mockAuthService.registerUser).toHaveBeenCalledWith(requestData);
-      expect(response).toBeInstanceOf(NextResponse);
       expect(response.status).toBe(201);
 
-      // レスポンスボディの検証
-      const responseBody = await response.json();
-      expect(responseBody).toEqual({
-        id: 'user-id',
-        email: 'test@example.com',
-        name: 'Test User',
-      });
+      // NextResponse.jsonの呼び出し検証
+      expect(NextResponse.json).toHaveBeenCalledWith(
+        {
+          id: 'user-id',
+          email: 'test@example.com',
+          name: 'Test User',
+        },
+        { status: 201 }
+      );
     });
 
     it('should return 400 if request body is invalid', async () => {
@@ -69,6 +87,7 @@ describe('AuthHandler', () => {
 
       // モックリクエスト
       const mockRequest = {
+        // @ts-expect-error - NextRequestのjsonメソッドに関する型エラーを無視
         json: jest.fn().mockResolvedValue(requestData),
       } as unknown as NextRequest;
 
@@ -78,8 +97,16 @@ describe('AuthHandler', () => {
       // 検証
       expect(mockRequest.json).toHaveBeenCalled();
       expect(mockAuthService.registerUser).not.toHaveBeenCalled();
-      expect(response).toBeInstanceOf(NextResponse);
       expect(response.status).toBe(400);
+
+      // NextResponse.jsonの呼び出し検証
+      expect(NextResponse.json).toHaveBeenCalledWith(
+        expect.objectContaining({
+          error: 'Invalid request body',
+          details: expect.any(Object),
+        }),
+        { status: 400 }
+      );
     });
 
     it('should return 409 if user already exists', async () => {
@@ -92,6 +119,7 @@ describe('AuthHandler', () => {
 
       // モックリクエスト
       const mockRequest = {
+        // @ts-expect-error - NextRequestのjsonメソッドに関する型エラーを無視
         json: jest.fn().mockResolvedValue(requestData),
       } as unknown as NextRequest;
 
@@ -106,8 +134,13 @@ describe('AuthHandler', () => {
       // 検証
       expect(mockRequest.json).toHaveBeenCalled();
       expect(mockAuthService.registerUser).toHaveBeenCalledWith(requestData);
-      expect(response).toBeInstanceOf(NextResponse);
       expect(response.status).toBe(409);
+
+      // NextResponse.jsonの呼び出し検証
+      expect(NextResponse.json).toHaveBeenCalledWith(
+        { error: 'User with this email already exists' },
+        { status: 409 }
+      );
     });
 
     it('should return 500 for unexpected errors', async () => {
@@ -120,6 +153,7 @@ describe('AuthHandler', () => {
 
       // モックリクエスト
       const mockRequest = {
+        // @ts-expect-error - NextRequestのjsonメソッドに関する型エラーを無視
         json: jest.fn().mockResolvedValue(requestData),
       } as unknown as NextRequest;
 
@@ -134,8 +168,13 @@ describe('AuthHandler', () => {
       // 検証
       expect(mockRequest.json).toHaveBeenCalled();
       expect(mockAuthService.registerUser).toHaveBeenCalledWith(requestData);
-      expect(response).toBeInstanceOf(NextResponse);
       expect(response.status).toBe(500);
+
+      // NextResponse.jsonの呼び出し検証
+      expect(NextResponse.json).toHaveBeenCalledWith(
+        { error: 'An unexpected error occurred' },
+        { status: 500 }
+      );
     });
   });
 
@@ -148,6 +187,7 @@ describe('AuthHandler', () => {
 
       // モックリクエスト
       const mockRequest = {
+        // @ts-expect-error - NextRequestのjsonメソッドに関する型エラーを無視
         json: jest.fn().mockResolvedValue(requestData),
       } as unknown as NextRequest;
 
@@ -169,8 +209,13 @@ describe('AuthHandler', () => {
       expect(mockRequest.json).toHaveBeenCalled();
       expect(mockAuthService.generatePasswordResetToken).toHaveBeenCalledWith('test@example.com');
       expect(mockAuthService.sendPasswordResetEmail).toHaveBeenCalledWith(mockToken, undefined);
-      expect(response).toBeInstanceOf(NextResponse);
       expect(response.status).toBe(200);
+
+      // NextResponse.jsonの呼び出し検証
+      expect(NextResponse.json).toHaveBeenCalledWith(
+        { message: 'Password reset email sent' },
+        { status: 200 }
+      );
     });
 
     it('should return 400 if email is missing', async () => {
@@ -179,6 +224,7 @@ describe('AuthHandler', () => {
 
       // モックリクエスト
       const mockRequest = {
+        // @ts-expect-error - NextRequestのjsonメソッドに関する型エラーを無視
         json: jest.fn().mockResolvedValue(requestData),
       } as unknown as NextRequest;
 
@@ -188,8 +234,16 @@ describe('AuthHandler', () => {
       // 検証
       expect(mockRequest.json).toHaveBeenCalled();
       expect(mockAuthService.generatePasswordResetToken).not.toHaveBeenCalled();
-      expect(response).toBeInstanceOf(NextResponse);
       expect(response.status).toBe(400);
+
+      // NextResponse.jsonの呼び出し検証
+      expect(NextResponse.json).toHaveBeenCalledWith(
+        expect.objectContaining({
+          error: 'Invalid request body',
+          details: expect.any(Object),
+        }),
+        { status: 400 }
+      );
     });
 
     it('should return 404 if user not found', async () => {
@@ -200,6 +254,7 @@ describe('AuthHandler', () => {
 
       // モックリクエスト
       const mockRequest = {
+        // @ts-expect-error - NextRequestのjsonメソッドに関する型エラーを無視
         json: jest.fn().mockResolvedValue(requestData),
       } as unknown as NextRequest;
 
@@ -214,8 +269,13 @@ describe('AuthHandler', () => {
       // 検証
       expect(mockRequest.json).toHaveBeenCalled();
       expect(mockAuthService.generatePasswordResetToken).toHaveBeenCalledWith('nonexistent@example.com');
-      expect(response).toBeInstanceOf(NextResponse);
       expect(response.status).toBe(404);
+
+      // NextResponse.jsonの呼び出し検証
+      expect(NextResponse.json).toHaveBeenCalledWith(
+        { error: 'User not found' },
+        { status: 404 }
+      );
     });
   });
 
@@ -229,6 +289,7 @@ describe('AuthHandler', () => {
 
       // モックリクエスト
       const mockRequest = {
+        // @ts-expect-error - NextRequestのjsonメソッドに関する型エラーを無視
         json: jest.fn().mockResolvedValue(requestData),
       } as unknown as NextRequest;
 
@@ -241,8 +302,13 @@ describe('AuthHandler', () => {
       // 検証
       expect(mockRequest.json).toHaveBeenCalled();
       expect(mockAuthService.resetPassword).toHaveBeenCalledWith('valid-token', 'new-password');
-      expect(response).toBeInstanceOf(NextResponse);
       expect(response.status).toBe(200);
+
+      // NextResponse.jsonの呼び出し検証
+      expect(NextResponse.json).toHaveBeenCalledWith(
+        { message: 'Password reset successful' },
+        { status: 200 }
+      );
     });
 
     it('should return 400 if token or password is missing', async () => {
@@ -253,6 +319,7 @@ describe('AuthHandler', () => {
 
       // モックリクエスト
       const mockRequest = {
+        // @ts-expect-error - NextRequestのjsonメソッドに関する型エラーを無視
         json: jest.fn().mockResolvedValue(requestData),
       } as unknown as NextRequest;
 
@@ -262,8 +329,16 @@ describe('AuthHandler', () => {
       // 検証
       expect(mockRequest.json).toHaveBeenCalled();
       expect(mockAuthService.resetPassword).not.toHaveBeenCalled();
-      expect(response).toBeInstanceOf(NextResponse);
       expect(response.status).toBe(400);
+
+      // NextResponse.jsonの呼び出し検証
+      expect(NextResponse.json).toHaveBeenCalledWith(
+        expect.objectContaining({
+          error: 'Invalid request body',
+          details: expect.any(Object),
+        }),
+        { status: 400 }
+      );
     });
 
     it('should return 400 if token is invalid or expired', async () => {
@@ -275,6 +350,7 @@ describe('AuthHandler', () => {
 
       // モックリクエスト
       const mockRequest = {
+        // @ts-expect-error - NextRequestのjsonメソッドに関する型エラーを無視
         json: jest.fn().mockResolvedValue(requestData),
       } as unknown as NextRequest;
 
@@ -289,8 +365,13 @@ describe('AuthHandler', () => {
       // 検証
       expect(mockRequest.json).toHaveBeenCalled();
       expect(mockAuthService.resetPassword).toHaveBeenCalledWith('invalid-token', 'new-password');
-      expect(response).toBeInstanceOf(NextResponse);
       expect(response.status).toBe(400);
+
+      // NextResponse.jsonの呼び出し検証
+      expect(NextResponse.json).toHaveBeenCalledWith(
+        { error: 'Invalid or expired token' },
+        { status: 400 }
+      );
     });
   });
 });
