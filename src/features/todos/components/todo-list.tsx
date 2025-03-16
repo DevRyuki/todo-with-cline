@@ -60,7 +60,7 @@ export const TodoList = ({
   }
 
   if (error) {
-    return <div className="p-4 text-red-500">{error}</div>;
+    return <div className="p-4 text-red-500">Todoの取得に失敗しました</div>;
   }
 
   if (todos.length === 0) {

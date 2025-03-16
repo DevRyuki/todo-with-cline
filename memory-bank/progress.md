@@ -36,18 +36,23 @@
     - ✅ 関数宣言の括弧の欠落修正
     - ✅ カンマの欠落修正
     - ✅ `async` キーワードの欠落修正
-  - 🔄 JSX変換エラー（`SyntaxError: Unexpected token '<'`）
-  - 🔄 Next.js環境エラー（`ReferenceError: Request is not defined`）
-  - 🔄 TextEncoder未定義エラー（`ReferenceError: TextEncoder is not defined`）
+  - ✅ JSX変換エラー解消（`SyntaxError: Unexpected token '<'`）
+  - ✅ TextEncoder未定義エラー解消（`ReferenceError: TextEncoder is not defined`）
+  - ✅ Next.js環境エラーの一部解消（Request, Response, Headersクラスのモック）
+  - 🔄 NextRequest/NextResponseのモック実装
+  - 🔄 ハンドラーテストの構文エラー修正
+  - ✅ 認証関連テストのインポートエラー解消
   - ✅ モジュールパスエイリアス設定 - jest.config.tsで設定済み
 - 🔄 Jest設定の最適化
   - ✅ next/jest使用 - jest.config.tsで設定済み
-  - 🔄 JSX変換設定
-  - 🔄 Next.js環境のモック設定
-  - 🔄 Playwrightテストの分離
+  - ✅ JSX変換設定 - ts-jestでuseESM: trueとjsx: 'react-jsx'を設定
+  - ✅ Next.js環境のモック設定 - jest.setup.tsでモッククラス実装
+  - ✅ Playwrightテストの分離 - testPathIgnorePatternsで除外
+  - 🔄 テスト実行スクリプトの分離（コンポーネント/サービス/ハンドラー）
 - ✅ モック型定義改善
 - ✅ E2Eテスト基本実装
 - ✅ setupTests.js と setupTests.cjs の重複解消 - jest.setup.tsへの移行
+- ✅ TodoListコンポーネントのエラーメッセージ修正
 
 ### フロントエンド（優先度：高）
 - ✅ データフェッチング
@@ -107,11 +112,9 @@
 
 ## 既知の問題
 - テスト環境の問題
-  - Next.js環境エラー（`ReferenceError: Request is not defined`）
-  - TextEncoder未定義エラー（`ReferenceError: TextEncoder is not defined`）
-  - JSX変換エラー（`SyntaxError: Unexpected token '<'`）
+  - NextRequest/NextResponseのモック実装が不完全
+  - ハンドラーテストでのNextResponse.jsonの構文エラー
   - Playwrightテストの実行方法（`npm run test:e2e`で実行する必要あり）
-  - TodoListコンポーネントのテストでエラーメッセージが期待通りに表示されていない
 - フロントエンド実装の不足
   - ページタイトルが未設定（現在は "Create Next App"）
   - Todoリスト表示コンポーネントが未実装（data-testid="todo-list"が見つからない）
@@ -125,10 +128,9 @@
 ## 優先タスク（2025/3/16現在）
 
 1. **テスト環境の改善**
-   - Next.js環境のモック設定追加（jest.setup.tsの拡充）
-   - TextEncoderのポリフィル追加
-   - JSX変換設定の最適化
-   - Playwrightテストの分離（Jestから除外）
+   - NextRequest/NextResponseのモック実装
+   - ハンドラーテストの構文エラー修正
+   - テスト実行スクリプトの分離
    - テスト実行の安定性向上
 
 2. **フロントエンド実装**
@@ -151,10 +153,9 @@
 
 ## 次のマイルストーン
 1. **テスト環境の改善**
-   - Next.js環境のモック設定追加
-   - TextEncoderのポリフィル追加
-   - JSX変換設定の最適化
-   - Playwrightテストの分離
+   - NextRequest/NextResponseのモック実装
+   - ハンドラーテストの構文エラー修正
+   - テスト実行スクリプトの分離
 2. **フロントエンド実装**
    - ページタイトルの修正
    - Todoリスト表示コンポーネントの実装

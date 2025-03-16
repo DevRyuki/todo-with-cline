@@ -122,23 +122,19 @@ features/[feature]/
 - **E2Eテスト**: ユーザー操作シミュレーション（Playwright）
 
 ### Jest設定
-- **jest.config.js**: テスト設定ファイル
+- **jest.config.ts**: テスト設定ファイル
   - `preset: 'ts-jest'` - TypeScriptサポート
   - `testEnvironment: 'jsdom'` - DOM環境
   - `moduleNameMapper` - モジュールパスエイリアス
   - `transform` - ファイル変換設定
   - `extensionsToTreatAsEsm` - ESモジュール対応
-  - `projects` - テスト実行プロジェクト分割
+  - `testPathIgnorePatterns` - Playwrightテスト除外
 
-- **jest.setup.js**: テスト環境セットアップ
+- **jest.setup.ts**: テスト環境セットアップ
   - Next.js環境のモック
-  - グローバルオブジェクトの設定
-  - Next.jsコンポーネントのモック
-
-- **setupTests.js/cjs**: テスト環境追加設定
-  - jest-dom拡張
-  - グローバルモック設定
-  - React 18対応
+    - MockRequest/MockResponse/MockHeadersクラス実装
+  - TextEncoder/TextDecoderのポリフィル
+  - @testing-library/jest-domの拡張
 
 ### テスト実行
 ```bash
@@ -196,25 +192,41 @@ flowchart TD
     Build --> Deploy[デプロイ]
 ```
 
-## 現在のテスト環境の課題
+## テスト環境の改善
 
-### JSX変換エラー
+### JSX変換エラー解決
 - 問題: `SyntaxError: Unexpected token '<'`
 - 原因: `"type": "module"`と`"jsx": "preserve"`の設定がJestと競合
-- 対策検討中:
+- 解決策:
   - ts-jestの設定調整
-  - babel-jestへの移行検討
+    - useESM: true
+    - tsconfig: { jsx: 'react-jsx' }
+  - extensionsToTreatAsEsmで.tsと.tsxファイルをESモジュールとして扱う
 
-### モジュールパスエラー
-- 問題: `Could not locate module @/features/auth/schemas/password.schema`
-- 原因: `@/`エイリアスの解決設定が不完全
-- 対策検討中:
-  - moduleNameMapperの設定見直し
-  - パスマッピング設定の調整
+### Next.js環境エラー解決
+- 問題: `ReferenceError: Request is not defined`
+- 原因: Next.jsのグローバルオブジェクトがテスト環境で未定義
+- 解決策:
+  - jest.setup.tsでNext.js環境のモック
+    - MockRequest/MockResponse/MockHeadersクラス実装
+  - 残課題: NextRequest/NextResponseのモック実装
 
-### setupTests.js と setupTests.cjs の重複
-- 問題: 同様の設定が2つのファイルに存在
-- 原因: ESモジュールとCommonJSの混在
-- 対策検討中:
-  - ファイルの統合
-  - 設定の一元化
+### TextEncoder未定義エラー解決
+- 問題: `ReferenceError: TextEncoder is not defined`
+- 原因: Node.jsのTextEncoderがテスト環境で未定義
+- 解決策:
+  - jest.setup.tsでTextEncoder/TextDecoderのポリフィル追加
+  - utilモジュールからインポート
+
+### Playwrightテストの分離
+- 問題: PlaywrightテストがJestで実行される
+- 原因: テストファイルの拡張子が同じ
+- 解決策:
+  - testPathIgnorePatternsでPlaywrightテストを除外
+  - `npm run test:e2e`でPlaywrightテストを実行
+
+### 残りの課題
+- NextRequest/NextResponseのモック実装
+- ハンドラーテストの構文エラー修正
+- 認証関連テストのインポートエラー解消
+- テスト実行スクリプトの分離

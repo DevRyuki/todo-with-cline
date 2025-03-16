@@ -1,8 +1,7 @@
 import { describe, it, expect, jest, beforeEach } from '@jest/globals';
 import { db } from '@/db';
 import { AuthService } from '../auth.service';
-import { users } from '@/features/auth/schemas/schema';
-import { passwords } from '@/features/auth/schemas/password.schema';
+import { users, passwords } from '@/features/auth/schemas/schema';
 import bcrypt from 'bcrypt';
 import { Resend } from 'resend';
 
@@ -31,8 +30,8 @@ jest.mock('@/db', () => ({
 }));
 
 jest.mock('bcrypt', () => ({
-  hash: jest.fn(),
-  compare: jest.fn(),
+  hash: jest.fn().mockImplementation(() => Promise.resolve('hashed-password')),
+  compare: jest.fn().mockImplementation(() => Promise.resolve(true)),
 }));
 
 jest.mock('resend', () => {
@@ -58,8 +57,7 @@ describe('AuthService', () => {
   describe('registerUser', () => {
     it('should hash password and create a new user', async () => {
       // モックの設定
-      const mockHashedPassword = 'hashed-password';
-      (bcrypt.hash as jest.Mock).mockResolvedValue(mockHashedPassword);
+      // bcrypt.hashはすでにモック化されているので、ここでは設定不要
       (db.insert as jest.Mock).mockReturnValue({
         values: jest.fn().mockReturnValue({
           returning: jest.fn().mockResolvedValue([
