@@ -1,5 +1,6 @@
 import { exec } from 'child_process';
 import { promisify } from 'util';
+import { createTestUser, createTestResetToken } from './auth-test-helpers';
 
 const execAsync = promisify(exec);
 
@@ -32,6 +33,26 @@ export async function createTestData() {
     // ここでテスト用のデータを作成するSQLを実行
     // 例: ユーザー、Todo、プロジェクト、ワークスペースなど
     console.log('テスト用サンプルデータを作成しています...');
+
+    // 認証テスト用のユーザーを作成
+    const testUser = await createTestUser(
+      'test@example.com',
+      'password123',
+      'テストユーザー'
+    );
+    console.log('認証テスト用ユーザーを作成しました:', testUser.email);
+
+    // 無効な認証情報テスト用のユーザーを作成
+    const invalidUser = await createTestUser(
+      'invalid@example.com',
+      'wrongpassword',
+      '無効ユーザー'
+    );
+    console.log('無効認証情報テスト用ユーザーを作成しました:', invalidUser.email);
+
+    // パスワードリセットテスト用のトークンを作成
+    const resetToken = await createTestResetToken('test@example.com');
+    console.log('パスワードリセットテスト用トークンを作成しました:', resetToken.token);
 
     // 実際のデータ作成ロジックはプロジェクトの要件に合わせて実装
 

@@ -33,40 +33,26 @@
 - ✅ ESLint/Jest連携
 - ✅ テスト実行時のエラー解消
   - ✅ テストファイルの構文エラー修正
-    - ✅ 関数宣言の括弧の欠落修正
-    - ✅ カンマの欠落修正
-    - ✅ `async` キーワードの欠落修正
-  - ✅ JSX変換エラー解消（`SyntaxError: Unexpected token '<'`）
-  - ✅ TextEncoder未定義エラー解消（`ReferenceError: TextEncoder is not defined`）
-  - ✅ Next.js環境エラーの一部解消（Request, Response, Headersクラスのモック）
-  - ✅ NextRequest/NextResponseのモック実装の改善（jest.setup.tsの更新）
-  - ✅ auth.handler.tsファイルのコンソールエラー修正（カンマの欠落）
-  - ✅ todos.handler.tsファイルのコンソールエラー修正（カンマの欠落）
-  - ✅ use-todos.tsファイルのコンソールエラー修正（カンマの欠落）
+  - ✅ JSX変換エラー解消
+  - ✅ TextEncoder未定義エラー解消
+  - ✅ Next.js環境エラーの一部解消
+  - ✅ NextRequest/NextResponseのモック実装の改善
+  - ✅ コンソールエラー修正（カンマの欠落）
   - ✅ ハンドラーテストの構文エラー修正
   - ✅ 認証関連テストのインポートエラー解消
-  - ✅ モジュールパスエイリアス設定 - jest.config.tsで設定済み
-- ✅ Jest設定の一部最適化
-  - ✅ next/jest使用 - jest.config.tsで設定済み
-  - ✅ JSX変換設定 - ts-jestでuseESM: trueとjsx: 'react-jsx'を設定
-  - ✅ Next.js環境のモック設定 - jest.setup.tsでモッククラス実装
-  - ✅ Playwrightテストの分離 - testPathIgnorePatternsで除外
+- ✅ Jest設定の最適化
+  - ✅ next/jest使用
+  - ✅ JSX変換設定
+  - ✅ Next.js環境のモック設定
+  - ✅ Playwrightテストの分離
+  - ✅ テスト実行スクリプトの分離
 - ✅ モック型定義改善
 - ✅ E2Eテスト基本実装
-- ✅ setupTests.js と setupTests.cjs の重複解消 - jest.setup.tsへの移行
-- ✅ TodoListコンポーネントのエラーメッセージ修正
+- ✅ setupTests.js と setupTests.cjs の重複解消
 - ✅ モックライブラリの導入（jest-mock-extended）
-  - ✅ 型安全なモックを簡単に作成
-  - ✅ AuthServiceのモック問題を解決
-- ✅ テストヘルパー関数の作成（src/test/helpers.ts）
-  - ✅ createMockAuthService()
-  - ✅ createMockRequest()
-  - ✅ expectJsonResponse()
-- ✅ NextResponseのモック簡素化（jest.setup.tsの修正）
-- ✅ NextRequest/NextResponseのモック実装の改善
+- ✅ テストヘルパー関数の作成
+- ✅ NextResponseのモック簡素化
 - ✅ 統合テスト
-- ✅ Jest設定の最適化
-  - ✅ テスト実行スクリプトの分離（コンポーネント/サービス/ハンドラー）
 
 ### フロントエンド
 - ✅ データフェッチング
@@ -81,17 +67,18 @@
 
 ### テスト環境改善（優先度：高）
 - ✅ モックライブラリの導入と活用
-  - ❌ next-test-api-route-handlerの導入（APIルートテスト）- App Routerとの互換性の問題により不要と判断
-  - ✅ MSWの導入（APIリクエストのモック）- フェッチャーのテストに有効
+- ✅ MSWの導入（APIリクエストのモック）
 - 🔄 E2Eテスト拡充
+  - ✅ 認証フローのE2Eテスト改善
+  - 🔄 Todoリスト機能のE2Eテスト修正
 
 ### フロントエンド（優先度：高）
 - 🔄 フロントエンド実装
-  - 🔄 ページタイトルの修正（現在は "Create Next App"）
-  - 🔄 Todoリスト表示コンポーネント実装（data-testid="todo-list"が見つからない）
-  - 🔄 認証UI実装（signin-form, signup-form, forgot-password-formが見つからない）
+  - 🔄 ページタイトルの修正
+  - 🔄 Todoリスト表示コンポーネント実装
+  - 🔄 認証UI実装
 - 🔄 Todo作成・編集フォーム
-  - 🔄 基本フォームコンポーネント（Shadcn/UI使用）
+  - 🔄 基本フォームコンポーネント
   - 🔄 フォームバリデーション
   - 🔄 フォームモーダル実装
   - 🔄 メインページ統合
@@ -107,6 +94,10 @@
 
 ### バックエンド（優先度：中）
 - 🔄 Projects/Workspaces API
+  - 🔄 スキーマ定義の確認
+  - 🔄 APIエンドポイント実装
+  - 🔄 サービス層実装
+  - 🔄 テスト実装
 - 🔄 リレーションシップ実装
 - 🔄 エラーハンドリング改善
 
@@ -143,44 +134,62 @@
 - E2Eテスト
   - すべてのE2Eテストが失敗（UIコンポーネントが実装されていないため）
 
-## 優先タスク（2025/3/16現在）
+## 優先タスク（2025/3/20現在）
 
 1. **フロントエンド実装**
    - 🔄 Todoリスト表示コンポーネントの実装
    - 🔄 Todo作成・編集フォーム実装
    - 🔄 ページタイトルの修正
+   - 🔄 認証UI（サインイン/サインアップ/パスワードリセット）の実装
 
-2. **Projects/Workspaces API実装**
+2. **E2Eテスト拡充**
+   - 🔄 Todoリスト機能のE2Eテスト修正
+
+3. **Projects/Workspaces API実装**
    - 🔄 スキーマ定義の確認
    - 🔄 APIエンドポイント実装
    - 🔄 サービス層実装
+   - 🔄 テスト実装
 
 ## 次のマイルストーン
 
-1. **Todoリスト機能の完成**（2-3日）
+1. **Todoリスト機能の完成**（2025/3/22までの目標）
    - 🔄 Todoリスト表示コンポーネント実装
    - 🔄 Todo作成・編集フォーム実装
    - 🔄 Todoリスト機能のE2Eテスト修正
 
-2. **Projects機能の実装**（3-4日）
+2. **Projects機能の実装**（2025/3/26までの目標）
    - 🔄 Projects API実装
    - 🔄 Projectsフロントエンド実装
    - 🔄 Projects機能のテスト
 
-3. **Workspaces機能の実装**（2-3日）
+3. **Workspaces機能の実装**（2025/3/29までの目標）
    - 🔄 Workspaces API実装
    - 🔄 Workspacesフロントエンド実装
    - 🔄 Workspaces機能のテスト
 
-4. **UI/UX改善**（2-3日）
+4. **UI/UX改善**（2025/4/1までの目標）
    - 🔄 ページレイアウト改善
    - 🔄 レスポンシブデザイン対応
    - 🔄 テーマ・スタイリング調整
 
-5. **セキュリティ強化**（1-2日）
+5. **セキュリティ強化**（2025/4/3までの目標）
    - 🔄 パスワード強度ポリシー
    - 🔄 ユーザー列挙攻撃対策
 
-6. **デプロイ準備**（1-2日）
+6. **デプロイ準備**（2025/4/5までの目標）
    - 🔄 本番環境設定
    - 🔄 CI/CD設定
+
+## 最近の進捗（2025/3/17～2025/3/20）
+
+- ✅ Jest設定の最適化
+  - ✅ テスト実行スクリプトの分離（コンポーネント/サービス/ハンドラー）
+- ✅ E2Eテスト基本実装
+  - ✅ 認証関連テスト（サインイン/サインアップ/パスワードリセット）
+  - ✅ Todoアプリ基本機能テスト（表示/完了状態切替）
+- ✅ テストヘルパー関数の作成（src/test/helpers.ts）
+- ✅ NextResponseのモック簡素化（jest.setup.tsの修正）
+- 🔄 フロントエンド実装の継続
+  - 🔄 Todoリスト表示コンポーネント実装
+  - 🔄 認証UI実装
