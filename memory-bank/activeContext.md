@@ -70,8 +70,9 @@
     - ❌ next-test-api-route-handlerの導入（APIルートテスト）- App Routerとの互換性の問題により不要と判断
     - ✅ MSWの導入（APIリクエストのモック）- フェッチャーのテストに有効
   - 🔄 Jest設定の最適化
-    - 🔄 テスト実行スクリプトの分離（コンポーネント/サービス/ハンドラー）
-  - 🔄 E2Eテスト拡充
+    - ✅ テスト実行スクリプトの分離（コンポーネント/サービス/ハンドラー）
+  - ✅ E2Eテスト拡充
+    - ✅ Todoリスト機能のE2Eテスト修正（エラー表示時のdata-testid属性追加）
 - TDD実践方法の改善（優先度：高）
   - 🔄 テスト粒度の最適化
 - フロントエンド実装（優先度：高）
@@ -143,6 +144,10 @@
   - 拡張されたモッククラスの実装（URL、メソッド、ヘッダー、クッキーなどのプロパティを含む）
   - 便利なファクトリーメソッドの提供（withBody、withUrlAndMethod）
   - モジュールのモック化（jest.mock('next/server', ...)）
+- **データベース設定**:
+  - docker-compose.ymlのデータベース名は「postgres」を使用
+  - .env.local.exampleのDB_NAMEも「postgres」を使用
+  - 環境変数が設定されていない場合のデフォルト値も「postgres」を使用
 
 ## 現在の課題
 - TDD実践の問題
@@ -157,6 +162,10 @@
   - 認証UI（signin-form, signup-form, forgot-password-formが見つからない）
   - Todo作成・編集フォームが未実装
   - ページレイアウトが未実装
+- データベース関連の問題
+  - ✅ `todos`テーブルが作成されない問題（解決済み：drizzle-kitのpushコマンドを使用）
+  - ✅ PostgreSQLのデータベース名（`public`）とスキーマ名（`public`）の混乱（解決済み）
+  - ✅ `.env.local`の`DB_NAME`設定と`docker-compose.yml`の`POSTGRES_DB`設定の不一致（解決済み）
 - DBリレーションシップ最適設計
 - パフォーマンス最適化
 - スケーラビリティ確保

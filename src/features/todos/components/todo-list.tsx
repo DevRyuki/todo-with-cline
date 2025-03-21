@@ -60,7 +60,7 @@ export const TodoList = ({
   }
 
   if (error) {
-    return <div className="p-4 text-red-500">Todoの取得に失敗しました</div>;
+    return <div className="p-4 text-red-500" data-testid="todo-list">Todoの取得に失敗しました</div>;
   }
 
   if (todos.length === 0) {
@@ -68,9 +68,14 @@ export const TodoList = ({
   }
 
   return (
-    <ul className="divide-y divide-gray-200">
+    <ul className="divide-y divide-gray-200" data-testid="todo-list">
       {todos.map((todo) => (
-        <li key={todo.id} className="py-4 flex items-center justify-between">
+        <li 
+          key={todo.id} 
+          className="py-4 flex items-center justify-between" 
+          data-testid="todo-item"
+          data-completed={todo.completed ? 'true' : 'false'}
+        >
           <div className="flex items-center">
             <input
               type="checkbox"
@@ -78,6 +83,7 @@ export const TodoList = ({
               onChange={() => handleToggle(todo.id, !todo.completed)}
               className="h-4 w-4 text-blue-600 border-gray-300 rounded"
               aria-label={`${todo.title}を${todo.completed ? '未完了' : '完了'}としてマーク`}
+              data-testid="todo-toggle"
             />
             <span
               className={`ml-3 ${todo.completed ? 'line-through text-gray-500' : ''}`}

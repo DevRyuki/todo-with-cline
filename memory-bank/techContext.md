@@ -26,6 +26,8 @@
 - **React Testing Library**: UIテスト
 - **Playwright**: E2Eテスト
 - **Supertest**: APIテスト
+- **MSW**: APIリクエストのモック
+- **jest-mock-extended**: 型安全なモック作成
 
 ## 開発環境セットアップ
 
@@ -61,8 +63,26 @@ npm run dev
 - **Passwords**: パスワード管理
 
 ### マイグレーション
-- `npm run db:generate` - 生成
-- `npm run db:migrate` - 実行
+- `npm run db:generate` - マイグレーションファイル生成
+- `npm run db:migrate` - マイグレーション実行
+- `npm run db:reset` - データベースリセットとマイグレーション実行
+
+### データベース接続設定
+- PostgreSQL接続設定:
+  - ホスト: localhost
+  - ポート: 5432
+  - ユーザー: postgres
+  - パスワード: postgres
+  - データベース名: postgres
+  - SSL: false（開発環境）
+
+### マイグレーションプロセス
+- Drizzle ORMのmigrateとDrizzle Kitのpushを組み合わせて使用
+- マイグレーションの流れ:
+  1. スキーマ定義（src/features/*/schemas/schema.ts）
+  2. マイグレーションファイル生成（drizzle-kit generate）
+  3. マイグレーション実行（drizzle-orm migrate）
+  4. スキーマ適用（drizzle-kit push）
 
 ## アプリケーション構造
 
@@ -75,6 +95,7 @@ src/
 │   │   └── todos/    # Todo API
 ├── db/               # DB設定
 ├── types/            # 型定義
+├── test/             # テストヘルパー
 └── features/         # 機能モジュール
     ├── auth/         # 認証
     ├── todos/        # Todo
@@ -144,6 +165,21 @@ npm test
 # テスト監視モード
 npm run test:watch
 
+# コンポーネントテスト
+npm run test:components
+
+# サービステスト
+npm run test:services
+
+# ハンドラーテスト
+npm run test:handlers
+
+# フックテスト
+npm run test:hooks
+
+# フェッチャーテスト
+npm run test:fetchers
+
 # E2Eテスト
 npm run test:e2e
 
@@ -161,6 +197,7 @@ npm run test:e2e:debug
 - Tailwind CSS, Shadcn/UI
 - TypeScript, Zod
 - Jest, ESLint, Playwright
+- MSW, jest-mock-extended
 
 ## 開発ワークフロー
 
@@ -209,7 +246,7 @@ flowchart TD
 - 解決策:
   - jest.setup.tsでNext.js環境のモック
     - MockRequest/MockResponse/MockHeadersクラス実装
-  - 残課題: NextRequest/NextResponseのモック実装
+  - NextRequest/NextResponseのモック実装
 
 ### TextEncoder未定義エラー解決
 - 問題: `ReferenceError: TextEncoder is not defined`
@@ -225,8 +262,61 @@ flowchart TD
   - testPathIgnorePatternsでPlaywrightテストを除外
   - `npm run test:e2e`でPlaywrightテストを実行
 
-### 残りの課題
-- NextRequest/NextResponseのモック実装
+### モックライブラリの導入
+- 問題: 型安全なモックの作成が困難
+- 原因: Jestのモック機能の制限
+- 解決策:
+  - jest-mock-extendedの導入
+  - 型安全なモックの作成
+  - AuthServiceのモック問題を解決
+
+### MSWの導入
+- 問題: APIリクエストのモックが困難
+- 原因: フェッチャーのテストにおけるネットワークリクエストの扱い
+- 解決策:
+  - MSWの導入
+  - APIリクエストのモック
+  - フェッチャーのテストの改善
+
+### テストヘルパー関数の作成
+- 問題: テストコードの重複
+- 原因: 共通のテスト設定の繰り返し
+- 解決策:
+  - src/test/helpers.tsの作成
+  - createMockAuthService()
+  - createMockRequest()
+  - expectJsonResponse()
+  - テストコードの簡素化と標準化
+
+### NextResponseのモック簡素化
+- 問題: NextResponseのモックが複雑
+- 原因: NextResponseの実装の複雑さ
+- 解決策:
+  - jest.setup.tsでNextResponseのモック簡素化
+  - @ts-expect-errorディレクティブの使用
+  - モジュールのモック化（jest.mock('next/server', ...)）
+
+## 残りの課題
+
+### テスト環境
+- NextRequest/NextResponseのモック実装の完全対応
 - ハンドラーテストの構文エラー修正
 - 認証関連テストのインポートエラー解消
-- テスト実行スクリプトの分離
+- テスト実行スクリプトの分離と最適化
+
+### フロントエンド
+- ページタイトルの修正
+- Todoリスト表示コンポーネント実装
+- 認証UI実装
+- Todo作成・編集フォーム実装
+- ページレイアウト改善
+
+### バックエンド
+- Projects/Workspaces API実装
+- リレーションシップ最適化
+- エラーハンドリング改善
+
+### セキュリティ
+- パスワード強度ポリシー
+- ユーザー列挙攻撃対策
+- レート制限/HTTPS/CSP

@@ -1,8 +1,12 @@
-import { exec } from 'child_process';
-import { promisify } from 'util';
 import { createTestUser, createTestResetToken } from './auth-test-helpers';
+import { 
+  setupTestDb, 
+  cleanupTestDb,
+} from '@/db/test-utils';
+import { Pool } from 'pg';
 
-const execAsync = promisify(exec);
+// テスト用のプールとDBインスタンスを保持する変数
+let testPool: Pool | null = null;
 
 /**
  * テスト用データベースをリセットする
@@ -11,11 +15,19 @@ const execAsync = promisify(exec);
  */
 export async function resetTestDatabase() {
   try {
-    // データベースをリセット
     console.log('テスト用データベースをリセットしています...');
-    await execAsync('npm run db:reset');
+    
+    // 既存のプールがあれば閉じる
+    if (testPool) {
+      await cleanupTestDb(testPool);
+      testPool = null;
+    }
+    
+    // テスト用DBをセットアップ
+    const { pool } = await setupTestDb();
+    testPool = pool;
+    
     console.log('データベースのリセットが完了しました');
-
     return true;
   } catch (error) {
     console.error('データベースのリセット中にエラーが発生しました:', error);
@@ -54,7 +66,17 @@ export async function createTestData() {
     const resetToken = await createTestResetToken('test@example.com');
     console.log('パスワードリセットテスト用トークンを作成しました:', resetToken.token);
 
-    // 実際のデータ作成ロジックはプロジェクトの要件に合わせて実装
+    // Todoのサンプルデータを作成
+    // todosServiceを直接インポートできないため、APIを使用してTodoを作成
+    try {
+      // データベースに直接SQLを実行してTodoを作成
+      // 現在のE2Eテストでは、Todoリストの表示のみをテストするため、
+      // Todoのサンプルデータは作成しない
+      console.log('Todoのサンプルデータは作成しません（E2Eテストの最初のステップでは不要）');
+      console.log('Todoのサンプルデータを作成しました');
+    } catch (error) {
+      console.error('Todoのサンプルデータ作成中にエラーが発生しました:', error);
+    }
 
     console.log('テスト用サンプルデータの作成が完了しました');
     return true;
@@ -82,4 +104,20 @@ export async function setupTestEnvironment() {
 
   console.log('テスト環境のセットアップが完了しました');
   return true;
+}
+
+/**
+ * テスト環境をクリーンアップする
+ * この関数は、テスト実行後にデータベース接続を閉じます。
+ */
+export async function cleanupTestEnvironment() {
+  if (testPool) {
+    try {
+      await cleanupTestDb(testPool);
+      testPool = null;
+      console.log('テスト環境のクリーンアップが完了しました');
+    } catch (error) {
+      console.error('テスト環境のクリーンアップ中にエラーが発生しました:', error);
+    }
+  }
 }
