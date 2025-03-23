@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { AuthInput } from './auth-input';
 import { AuthButton } from './auth-button';
 import Link from 'next/link';
+import { CheckCircle2 } from 'lucide-react';
 
 /**
  * サインアップフォームコンポーネント
@@ -78,47 +79,42 @@ export const SignUpForm = () => {
 
   if (isSuccess) {
     return (
-      <div className="w-full max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
+      <div className="w-full max-w-md mx-auto p-8 bg-card rounded-xl shadow-sm border border-border">
         <div className="text-center">
-          <svg
-            className="mx-auto h-12 w-12 text-green-500"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M5 13l4 4L19 7"
-            />
-          </svg>
-          <h2 className="mt-3 text-lg font-medium text-gray-900">登録完了</h2>
-          <p className="mt-2 text-sm text-gray-500">
+          <div className="mx-auto h-16 w-16 flex items-center justify-center rounded-full bg-primary/10">
+            <CheckCircle2 className="h-10 w-10 text-primary" />
+          </div>
+          <h2 className="mt-4 text-xl font-semibold">登録完了</h2>
+          <p className="mt-3 text-muted-foreground">
             ユーザー登録が完了しました。ログインページに移動します...
           </p>
+          <div className="mt-6 animate-pulse">
+            <div className="h-1 w-24 mx-auto bg-muted rounded-full"></div>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="w-full max-w-md mx-auto p-6 bg-white rounded-lg shadow-md" data-testid="signup-form">
-      <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">新規登録</h2>
+    <div className="w-full max-w-md mx-auto p-8 bg-card rounded-xl shadow-sm border border-border transition-all duration-300" data-testid="signup-form">
+      <h2 className="text-2xl font-bold text-center mb-6">新規アカウント作成</h2>
 
       {error && (
-        <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
-          {error}
+        <div className="mb-6 p-4 bg-destructive/10 border-l-4 border-destructive text-destructive rounded-md flex items-start">
+          <svg className="h-5 w-5 mr-2 mt-0.5 text-destructive" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+          <span>{error}</span>
         </div>
       )}
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="space-y-5">
         <AuthInput
           id="name"
           name="name"
           type="text"
-          label="名前"
+          label="お名前"
           placeholder="山田 太郎"
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -142,31 +138,31 @@ export const SignUpForm = () => {
           name="password"
           type="password"
           label="パスワード"
-          placeholder="8文字以上"
+          placeholder="8文字以上の強力なパスワード"
           required
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           autoComplete="new-password"
         />
 
-        <div className="mt-6">
+        <div className="mt-8">
           <AuthButton
             type="submit"
             disabled={isLoading}
             isLoading={isLoading}
-            className="w-full"
+            className="w-full py-3"
           >
-            登録する
+            アカウント作成
           </AuthButton>
         </div>
       </form>
 
-      <div className="mt-6 text-center">
-        <p className="text-sm text-gray-600">
+      <div className="mt-8 text-center border-t border-border pt-6">
+        <p className="text-sm text-muted-foreground">
           すでにアカウントをお持ちの場合は
           <Link
             href="/auth/signin"
-            className="text-blue-600 hover:text-blue-800 ml-1"
+            className="text-primary hover:text-primary/90 font-medium ml-1 transition-colors"
           >
             ログイン
           </Link>

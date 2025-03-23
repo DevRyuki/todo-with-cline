@@ -6,15 +6,20 @@
  */
 
 import { isTest } from './config';
-import { createMockDb, setupMockDb } from './mock-utils';
 
 // テスト環境の場合はモックDBを使用
 // 実際のテスト環境では、各テストファイルでモックを設定する
-const mockDb = createMockDb();
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let mockDb: Record<string, unknown> | null = null;
+
+// テスト環境でのみモックを初期化
 if (isTest) {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const mockUtils = require('./mock-utils');
+  mockDb = mockUtils.createMockDb();
+  mockUtils.setupMockDb(mockDb);
   console.log('テスト環境用のモックDBを初期化しました');
 }
-setupMockDb(mockDb);
 
 // クライアント関連の機能をエクスポート
 export {
@@ -42,7 +47,7 @@ export {
   isDevelopment,
 } from './config';
 
-// テスト用のモックDBをエクスポート
+// テスト用のモックDBをエクスポート（テスト環境のみ）
 export { mockDb };
 
 // テスト用のクライアント関連の機能をエクスポート
@@ -54,8 +59,6 @@ export {
   testDbConfig,
 } from './test-client';
 
-// モックユーティリティをエクスポート
-export {
-  createMockDb,
-  setupMockDb,
-} from './mock-utils';
+// モックユーティリティをテスト環境でのみエクスポート
+// 注: ESモジュールでは動的エクスポートができないため、
+// テスト環境では直接mock-utilsをインポートして使用することを推奨

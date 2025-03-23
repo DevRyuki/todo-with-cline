@@ -2,6 +2,8 @@
 
 import { useTodos } from '../hooks/use-todos';
 import { Todo } from '../types';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Button } from '@/components/ui/button';
 
 interface TodoListProps {
   initialTodos?: Todo[];
@@ -60,7 +62,7 @@ export const TodoList = ({
   }
 
   if (error) {
-    return <div className="p-4 text-red-500" data-testid="todo-list">Todoの取得に失敗しました</div>;
+    return <div className="p-4 text-destructive" data-testid="todo-list">Todoの取得に失敗しました</div>;
   }
 
   if (todos.length === 0) {
@@ -68,7 +70,7 @@ export const TodoList = ({
   }
 
   return (
-    <ul className="divide-y divide-gray-200" data-testid="todo-list">
+    <ul className="divide-y divide-border" data-testid="todo-list">
       {todos.map((todo) => (
         <li 
           key={todo.id} 
@@ -76,29 +78,31 @@ export const TodoList = ({
           data-testid="todo-item"
           data-completed={todo.completed ? 'true' : 'false'}
         >
-          <div className="flex items-center">
-            <input
-              type="checkbox"
+          <div className="flex items-center gap-3">
+            <Checkbox
+              id={`todo-${todo.id}`}
               checked={todo.completed}
-              onChange={() => handleToggle(todo.id, !todo.completed)}
-              className="h-4 w-4 text-blue-600 border-gray-300 rounded"
+              onCheckedChange={() => handleToggle(todo.id, !todo.completed)}
               aria-label={`${todo.title}を${todo.completed ? '未完了' : '完了'}としてマーク`}
               data-testid="todo-toggle"
             />
-            <span
-              className={`ml-3 ${todo.completed ? 'line-through text-gray-500' : ''}`}
+            <label
+              htmlFor={`todo-${todo.id}`}
+              className={`${todo.completed ? 'line-through text-muted-foreground' : ''}`}
             >
               {todo.title}
-            </span>
+            </label>
           </div>
           <div>
-            <button
+            <Button
               onClick={() => handleDelete(todo.id)}
-              className="text-red-500 hover:text-red-700"
+              variant="ghost"
+              className="text-destructive hover:text-destructive/90 hover:bg-destructive/10"
               aria-label={`${todo.title}を削除`}
+              size="sm"
             >
               削除
-            </button>
+            </Button>
           </div>
         </li>
       ))}
