@@ -55,6 +55,7 @@ export const AuthInput = forwardRef<HTMLInputElement, AuthInputProps>(
           disabled={disabled}
           required={required}
           autoComplete={autoComplete}
+          data-testid={`${name}-input`}
           className={`
             w-full px-3 py-2 border rounded-md shadow-sm
             ${error ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'}

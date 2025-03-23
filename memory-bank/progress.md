@@ -62,6 +62,16 @@
   - ✅ ローディング状態管理
 - ✅ UIコンポーネント設計（一部）
   - ✅ Shadcn/UI採用決定
+- ✅ フロントエンド実装
+  - ✅ ページタイトルの修正
+  - ✅ Todoリスト表示コンポーネント実装
+  - ✅ 認証UI実装
+    - ✅ SignInFormコンポーネントにdata-testid属性追加
+    - ✅ SignUpFormコンポーネントにdata-testid属性追加
+    - ✅ ForgotPasswordFormコンポーネントにdata-testid属性追加
+    - ✅ ResetPasswordFormコンポーネントにdata-testid属性追加
+    - ✅ AuthInputコンポーネントにdata-testid属性追加
+    - ✅ AuthButtonコンポーネントにdata-testid属性追加
 
 ## 進行中の項目
 
@@ -71,12 +81,6 @@
 - 🔄 E2Eテスト拡充
   - ✅ 認証フローのE2Eテスト改善
   - ✅ Todoリスト機能のE2Eテスト修正（エラー表示時のdata-testid属性追加）
-
-### フロントエンド（優先度：高）
-- 🔄 フロントエンド実装
-  - 🔄 ページタイトルの修正
-  - 🔄 Todoリスト表示コンポーネント実装
-  - 🔄 認証UI実装
 - 🔄 Todo作成・編集フォーム
   - 🔄 基本フォームコンポーネント
   - 🔄 フォームバリデーション

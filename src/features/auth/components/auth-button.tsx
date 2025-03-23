@@ -42,12 +42,30 @@ export const AuthButton = ({
     ${className}
   `;
 
+  // ボタンのタイプに基づいてdata-testidを設定
+  let testId = '';
+  if (type === 'submit') {
+    if (variant === 'primary') {
+      // フォームのコンテキストに基づいてボタンのdata-testidを推測
+      if (children === 'ログイン') {
+        testId = 'signin-button';
+      } else if (children === '登録する') {
+        testId = 'signup-button';
+      } else {
+        testId = 'submit-button';
+      }
+    }
+  } else if (variant === 'link' && children === 'ログアウト') {
+    testId = 'signout-button';
+  }
+
   return (
     <button
       type={type}
       onClick={onClick}
       disabled={disabled || isLoading}
       className={buttonStyles}
+      data-testid={testId || undefined}
     >
       {isLoading ? (
         <div className="flex items-center">

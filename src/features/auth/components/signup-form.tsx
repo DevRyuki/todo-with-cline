@@ -104,7 +104,7 @@ export const SignUpForm = () => {
   }
 
   return (
-    <div className="w-full max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
+    <div className="w-full max-w-md mx-auto p-6 bg-white rounded-lg shadow-md" data-testid="signup-form">
       <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">新規登録</h2>
 
       {error && (

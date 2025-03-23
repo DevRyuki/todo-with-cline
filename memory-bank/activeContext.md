@@ -75,10 +75,6 @@
     - ✅ Todoリスト機能のE2Eテスト修正（エラー表示時のdata-testid属性追加）
 - TDD実践方法の改善（優先度：高）
   - 🔄 テスト粒度の最適化
-- フロントエンド実装（優先度：高）
-  - 🔄 ページタイトルの修正（現在は "Create Next App"）
-  - 🔄 Todoリスト表示コンポーネント実装（data-testid="todo-list"が見つからない）
-  - 🔄 認証UI実装（signin-form, signup-form, forgot-password-formが見つからない）
 - Todo作成・編集フォーム開発（優先度：中）
   - 🔄 基本フォームコンポーネント実装
   - 🔄 フォームバリデーション
@@ -102,10 +98,11 @@
 ## 次のステップ
 1. **テスト環境の最適化**
    - 🔄 テスト実行スクリプトの分離（package.jsonの更新）
+   - 🔄 @jest/globalsモジュールからjestをインポートする問題の解決
 2. **フロントエンド実装**
-   - 🔄 ページタイトルの修正（現在は "Create Next App"）
-   - 🔄 Todoリスト表示コンポーネントの実装
-   - 🔄 認証UI（サインイン/サインアップ/パスワードリセット）の実装
+   - ✅ ページタイトルの修正（完了）
+   - ✅ Todoリスト表示コンポーネントの実装（完了）
+   - ✅ 認証UI（サインイン/サインアップ/パスワードリセット）の実装（完了）
    - 🔄 Todo作成・編集フォーム実装
 3. **Projects/Workspaces API実装**
    - 🔄 スキーマ定義の確認
@@ -156,10 +153,17 @@
   - テスト粒度の不適切さ（実装の詳細に依存しすぎている）
 - テスト環境の問題
   - Playwrightテストの実行方法（`npm run test:e2e`で実行する必要あり）
+  - @jest/globalsモジュールからjestをインポートする問題（ESモジュール形式との互換性）
 - フロントエンド実装の不足
-  - ページタイトルが未設定（現在は "Create Next App"）
-  - Todoリスト表示コンポーネントが未実装（data-testid="todo-list"が見つからない）
-  - 認証UI（signin-form, signup-form, forgot-password-formが見つからない）
+  - ✅ ページタイトルの修正（解決済み：layout.tsxのメタデータは「Todo App」に設定）
+  - ✅ Todoリスト表示コンポーネントのdata-testid属性（解決済み：data-testid="todo-list"属性を確認）
+  - ✅ 認証UI（解決済み：各コンポーネントにdata-testid属性を追加）
+    - ✅ SignInFormコンポーネント: data-testid="signin-form"
+    - ✅ SignUpFormコンポーネント: data-testid="signup-form"
+    - ✅ ForgotPasswordFormコンポーネント: data-testid="forgot-password-form"
+    - ✅ ResetPasswordFormコンポーネント: data-testid="reset-password-form"
+    - ✅ AuthInputコンポーネント: data-testid="${name}-input"
+    - ✅ AuthButtonコンポーネント: ボタンの種類に応じたdata-testid
   - Todo作成・編集フォームが未実装
   - ページレイアウトが未実装
 - データベース関連の問題
